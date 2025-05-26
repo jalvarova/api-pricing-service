@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  title: Price API
+  version: 1.0.0
+  description: API para consultar precios aplicables a productos
+
+paths:
+  /prices/search:
+    post:
+      summary: Consultar precio aplicable
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceRequest'
+      responses:
+        '200':
+          description: Precio encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponse'
+        '404':
+          description: No se encontró precio aplicable
+
+  /prices:
+    get:
+      summary: Obtener todos los precios
+      responses:
+        '200':
+          description: Lista de precios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceResponse'
+
+  /prices/{id}:
+    get:
+      summary: Obtener precio por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Precio encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponse'
+        '404':
+          description: Precio no encontrado
+components:
+  schemas:
+    PriceRequest:
+      type: object
+      required:
+        - applicationDate
+        - productId
+        - brandId
+      properties:
+        applicationDate:
+          type: string
+          format: date-time
+          example: "2020-06-14T10:00:00"
+        productId:
+          type: integer
+          example: 35455
+        brandId:
+          type: integer
+          example: 1
+    PriceResponse:
+      type: object
+      properties:
+        productId:
+          type: integer
+        brandId:
+          type: integer
+        priceList:
+          type: integer
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: float
+        currency:
+          type: string
