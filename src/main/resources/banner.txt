@@ -1,0 +1,18 @@
+${AnsiColor.BRIGHT_BLUE}
+   _____  __________ .___  __________         .__         .__                  ____   ____ ____
+  /  _  \ \______   \|   | \______   \_______ |__|  ____  |__|  ____    ____   \   \ /   //_   |
+ /  /_\  \ |     ___/|   |  |     ___/\_  __ \|  |_/ ___\ |  | /    \  / ___\   \   Y   /  |   |
+/    |    \|    |    |   |  |    |     |  | \/|  |\  \___ |  ||   |  \/ /_/  >   \     /   |   |
+\____|__  /|____|    |___|  |____|     |__|   |__| \___  >|__||___|  /\___  /     \___/    |___|
+        \/                                             \/          \//_____/
+${AnsiColor.DEFAULT}
+
+${AnsiColor.BRIGHT_YELLOW}💰 Service:${AnsiColor.BRIGHT_WHITE} ${spring.application.name}
+${AnsiColor.BRIGHT_GREEN}📦 Version:${AnsiColor.BRIGHT_WHITE} ${spring.application.version}
+
+${AnsiColor.BRIGHT_CYAN}📊 Metrics:${AnsiColor.BRIGHT_WHITE} http://localhost:8080/api/v1/pricing/actuator
+${AnsiColor.BRIGHT_CYAN}📈 Prometheus:${AnsiColor.BRIGHT_WHITE} http://localhost:8080/api/v1/pricing/actuator/prometheus
+${AnsiColor.BRIGHT_CYAN}📘 Swagger:${AnsiColor.BRIGHT_WHITE} http://localhost:8080/api/v1/pricing/swagger-ui.html
+${AnsiColor.BRIGHT_CYAN}🗄️ H2 Console: ${AnsiColor.BRIGHT_WHITE}http://localhost:8080/api/v1/pricing/h2-console
+${AnsiColor.BRIGHT_CYAN}🩺 Health endpoint: ${AnsiColor.BRIGHT_WHITE}http://localhost:8080/api/v1/pricing/actuator/health
+

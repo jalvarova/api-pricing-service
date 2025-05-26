@@ -30,7 +30,6 @@ replay_pid*
 *.iws
 /out/
 build/*
-.gradle/*
 
 # OS-specific files
 .DS_Store
