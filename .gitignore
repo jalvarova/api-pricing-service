@@ -38,6 +38,4 @@ Thumbs.db
 
 # Gradle
 .gradle
-gradlew
-gradlew.bat
 /build/
