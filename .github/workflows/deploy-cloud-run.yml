@@ -38,7 +38,13 @@ jobs:
         run: gcloud auth configure-docker
 
       - name: Print set secrets
-        run: echo "${{ secrets.REGION }} ${{ secrets.GCP_PROJECT_ID }} $GITHUB_SHA"
+        run: |
+          REGION="${{ secrets.REGION }}"
+          PROJECT_ID="${{ secrets.GCP_PROJECT_ID }}"
+          
+          echo "📍 REGION=${{ secrets.REGION }}"
+          echo "📍 PROJECT_ID=${{ secrets.PROJECT_ID }}"
+          echo "📍 GITHUB_SHA=$GITHUB_SHA"
 
       - name: Build Docker image
         run: |
