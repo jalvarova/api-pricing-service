@@ -34,8 +34,7 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: List Artifact Registry repositories
-        run: gcloud artifacts repositories list --location=${{ secrets.REGION }}
-
+        run: gcloud artifacts repositories list --location=${{ secrets.REGION }} --project=${{ secrets.GCP_PROJECT_ID }}
 
       - name: Configure Docker authentication
         run: gcloud auth configure-docker ${{ secrets.REGION }}-docker.pkg.dev --quiet
