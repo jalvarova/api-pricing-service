@@ -23,10 +23,13 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon
+        run: ./gradlew clean
 
       - name: Generated open api
-        run: ./gradlew openApiGenerate
+        run: /gradlew openApiGenerate
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
