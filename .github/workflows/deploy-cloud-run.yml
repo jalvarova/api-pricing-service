@@ -37,6 +37,9 @@ jobs:
       - name: Configure Docker authentication
         run: gcloud auth configure-docker
 
+      - name: Print set secrets
+        run: echo "${{ secrets.REGION }} ${{ secrets.GCP_PROJECT_ID }} $GITHUB_SHA"
+
       - name: Build Docker image
         run: |
           docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/api-pricing-service:$GITHUB_SHA .
