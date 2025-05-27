@@ -17,6 +17,8 @@ public interface PriceMapper {
               .brandId(entity.getBrandId())
               .productId(entity.getProductId())
               .startDate(entity.getStartDate())
+              .priority(entity.getPriority())
               .endDate(entity.getEndDate())
+              .curr(entity.getCurr())
               .build();
 }

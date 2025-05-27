@@ -20,7 +20,7 @@ public class ApiPricingServiceApplication {
 			System.out.println(
 					">>> PRICES table has " + count + " rows.");
 			port
-					.getAllPrices()
+					.getAllPricesByProductId(35455L)
 					.toIterable()
 					.forEach(
 							p -> System.out.println("Price loaded: " + p.getProductId() + " -> " + p.getPrice()));

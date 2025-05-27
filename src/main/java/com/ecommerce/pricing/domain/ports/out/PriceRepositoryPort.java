@@ -7,13 +7,13 @@ import reactor.core.publisher.Mono;
 
 public interface PriceRepositoryPort {
 
-  Mono<Price> getPrice(Long productId, Integer brandId, LocalDateTime date);
+  Flux<Price> getPricesByDate(Long productId, Integer brandId, LocalDateTime date);
 
   Mono<Price> getPriceById(Long id);
 
   Mono<Long> selectCount();
 
-  Flux<Price> getAllPrices();
+  Flux<Price> getAllPricesByProductId(Long productId);
 
   Mono<Price> save(Price price);
 

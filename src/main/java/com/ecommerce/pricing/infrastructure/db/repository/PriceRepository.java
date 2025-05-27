@@ -2,6 +2,7 @@ package com.ecommerce.pricing.infrastructure.db.repository;
 
 import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +17,11 @@ public interface PriceRepository extends CrudRepository<PriceEntity, Long> {
                AND :applicationDate BETWEEN p.startDate AND p.endDate
              ORDER BY p.priority DESC
           """)
-  PriceEntity findTopByProductBrandAndDate(
+  List<PriceEntity> findTopByProductBrandAndDate(
       @Param("productId") Long productId,
       @Param("brandId") Integer brandId,
       @Param("applicationDate") LocalDateTime applicationDate);
+
+  List<PriceEntity> findAllByProductId(Long productId);
+
 }
