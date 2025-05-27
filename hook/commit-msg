@@ -9,7 +9,7 @@ NC="\033[0m" # No Color
 commit_msg=$(head -n1 "$1")
 
 # Expresión regular para Conventional Commits
-pattern="^(feat|fix|docs|style|refactor|test|chore)(\([a-z0-9\-]+\))?: .{1,}$"
+pattern="^(feat|fix|docs|style|refactor|test|chore|ci)(\([a-z0-9\-]+\))?: .{1,}$"
 
 if echo "$commit_msg" | grep -qE "$pattern"; then
   echo "${GREEN}✔ Commit válido:${NC} $commit_msg"

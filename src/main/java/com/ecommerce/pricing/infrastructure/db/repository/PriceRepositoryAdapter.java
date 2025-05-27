@@ -12,12 +12,11 @@ import reactor.core.publisher.Mono;
 @Component
 public class PriceRepositoryAdapter implements PriceRepositoryPort {
 
-  @Autowired
-  PriceRepository repository;
+  @Autowired private PriceRepository repository;
 
   @Override
-  public Mono<Price> getPrice(Long productId, Integer brandId, LocalDateTime date) {
-    return Mono.just(repository.findTopByProductBrandAndDate(productId, brandId, date))
+  public Flux<Price> getPricesByDate(Long productId, Integer brandId, LocalDateTime date) {
+    return Flux.fromIterable(repository.findTopByProductBrandAndDate(productId, brandId, date))
                 .map(PriceMapper.toDomain);
   }
 
@@ -32,8 +31,8 @@ public class PriceRepositoryAdapter implements PriceRepositoryPort {
   }
 
   @Override
-  public Flux<Price> getAllPrices() {
-    return Flux.fromIterable(repository.findAll()).map(PriceMapper.toDomain);
+  public Flux<Price> getAllPricesByProductId(Long productId) {
+    return Flux.fromIterable(repository.findAllByProductId(productId)).map(PriceMapper.toDomain);
   }
 
   @Override

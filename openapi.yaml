@@ -24,9 +24,15 @@ paths:
         '404':
           description: No se encontró precio aplicable
 
-  /prices:
+  /prices/{productId}/product:
     get:
-      summary: Obtener todos los precios
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+      summary: Obtener todos los precios por un producto
       responses:
         '200':
           description: Lista de precios
@@ -39,7 +45,7 @@ paths:
 
   /prices/{id}:
     get:
-      summary: Obtener precio por ID
+      summary: Obtener precios de un producto por su ID
       parameters:
         - in: path
           name: id
