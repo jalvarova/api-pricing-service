@@ -24,7 +24,7 @@ jobs:
 
       - name: Clean and generate OpenAPI client
         run: |
-          ./gradlew clean openApiGenerate build
+          ./gradlew clean openApiGenerate
 
       - name: Clean and run tests with coverage
         run: ./gradlew test jacocoTestReport
