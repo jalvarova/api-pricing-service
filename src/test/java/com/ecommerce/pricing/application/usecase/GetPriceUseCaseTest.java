@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
-public class GetPriceUseCaseTest {
+class GetPriceUseCaseTest {
 
   @Mock
   private PriceRepositoryPort priceRepository;
@@ -29,6 +29,7 @@ public class GetPriceUseCaseTest {
 
   private static final Long PRODUCT_ID = 35455L;
   private static final Integer BRAND = 1;
+  private final BuilderObjectMocks mapper = new BuilderObjectMocks();
 
   @Test
   @DisplayName("Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)")
@@ -37,7 +38,7 @@ public class GetPriceUseCaseTest {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
 
     when(priceRepository.getPricesByDate(PRODUCT_ID, BRAND, date))
-        .thenReturn(Flux.fromIterable(BuilderObjectMocks.getPricesByDate()));
+        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, BRAND, date);
 
@@ -55,7 +56,7 @@ public class GetPriceUseCaseTest {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 16, 0, 0);
 
     when(priceRepository.getPricesByDate(PRODUCT_ID, BRAND, date))
-        .thenReturn(Flux.fromIterable(BuilderObjectMocks.getPricesByDate()));
+        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, BRAND, date);
 
@@ -73,7 +74,7 @@ public class GetPriceUseCaseTest {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 21, 0, 0);
 
     when(priceRepository.getPricesByDate(PRODUCT_ID, BRAND, date))
-        .thenReturn(Flux.fromIterable(BuilderObjectMocks.getPricesByDate()));
+        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, BRAND, date);
 
@@ -91,7 +92,7 @@ public class GetPriceUseCaseTest {
     LocalDateTime date = LocalDateTime.of(2020, 6, 15, 10, 0, 0);
 
     when(priceRepository.getPricesByDate(PRODUCT_ID, 1, date))
-        .thenReturn(Flux.fromIterable(BuilderObjectMocks.getPricesByDate()));
+        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, 1, date);
 
@@ -109,7 +110,7 @@ public class GetPriceUseCaseTest {
     LocalDateTime date = LocalDateTime.of(2020, 6, 16, 21, 0, 0);
 
     when(priceRepository.getPricesByDate(PRODUCT_ID, 1, date))
-        .thenReturn(Flux.fromIterable(BuilderObjectMocks.getPricesByDate()));
+        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, 1, date);
 

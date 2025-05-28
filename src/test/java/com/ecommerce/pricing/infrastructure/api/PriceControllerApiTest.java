@@ -14,7 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class PriceControllerApiTest {
+class PriceControllerApiTest {
 
   @Autowired
   private WebTestClient webTestClient;

@@ -41,28 +41,4 @@ public interface PriceRepositoryPort {
    * @return ListPrices
    */
   Flux<Price> getAllPricesByProductId(Long productId);
-
-  /**
-   * Guargar los precios configurados de un producto.
-   *
-   ** @param price
-   * @return ListPrices
-   */
-  Mono<Price> save(Price price);
-
-  /**
-   * Actualizar los precios configurados de un producto.
-   *
-   * @param price
-   * @return ListPrices
-   */
-  Mono<Price> update(Price price);
-
-  /**
-   * Eliminar los precios configurados de un producto por id.
-   *
-   * @param id
-   * @return ListPrices
-   */
-  Mono<Price> deleteById(Long id);
 }

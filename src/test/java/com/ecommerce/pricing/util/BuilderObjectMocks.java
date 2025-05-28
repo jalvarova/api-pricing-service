@@ -7,14 +7,16 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import lombok.Data;
 
+@Data
 public class BuilderObjectMocks {
 
-  public final static PriceEntity priceEntity1, priceEntity2, priceEntity3, priceEntity4, priceEntity5;
+  private PriceEntity priceEntity1, priceEntity2, priceEntity3, priceEntity4, priceEntity5;
 
   public final static String CURRENCY_CODE = "EUR";
 
-  static {
+  public BuilderObjectMocks() {
     priceEntity1 = PriceEntity
         .builder()
         .id(1L)
@@ -82,23 +84,23 @@ public class BuilderObjectMocks {
 
   }
 
-  public static List<PriceEntity> getListPricesByProduct() {
-    return Arrays.asList(priceEntity1, priceEntity2, priceEntity3, priceEntity4);
+  public List<PriceEntity> getListPricesByProduct() {
+    return Arrays.asList(this.priceEntity1, priceEntity2, priceEntity3, priceEntity4);
   }
 
-  public static List<PriceEntity> getAllPricesByProduct2() {
+  public List<PriceEntity> getAllPricesByProduct2() {
     return Collections.singletonList(priceEntity5);
   }
 
-  public static List<PriceEntity> getListPricesRangeDate() {
+  public List<PriceEntity> getListPricesRangeDate() {
     return Arrays.asList(priceEntity1, priceEntity2);
   }
 
-  public static List<Price> getPricesByDate() {
+  public List<Price> getPricesByDate() {
     return Arrays.asList(buildDomain(priceEntity1), buildDomain(priceEntity2));
   }
 
-  private static Price buildDomain(PriceEntity entity) {
+  public Price buildDomain(PriceEntity entity) {
     return Price.builder()
         .price(entity.getPrice())
         .priceList(entity.getPriceList())

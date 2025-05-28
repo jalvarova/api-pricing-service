@@ -23,7 +23,7 @@ import reactor.test.StepVerifier;
 
 
 @ExtendWith(MockitoExtension.class)
-public class PriceRepositoryAdapterTest {
+class PriceRepositoryAdapterTest {
 
   @Mock
   private PriceRepository priceRepository;
@@ -33,10 +33,11 @@ public class PriceRepositoryAdapterTest {
 
   private Long productId;
 
+  private final BuilderObjectMocks mapper = new BuilderObjectMocks();
+
   @BeforeEach
   void setUp() {
     productId = 35455L;
-
   }
 
   @Test
@@ -44,7 +45,7 @@ public class PriceRepositoryAdapterTest {
   void getAllPricesByProductId() {
 
     when(priceRepository.findAllByProductId(productId))
-        .thenReturn(BuilderObjectMocks.getListPricesByProduct());
+        .thenReturn(mapper.getListPricesByProduct());
 
     Flux<Price> result = adapter.getAllPricesByProductId(productId);
 
@@ -59,7 +60,7 @@ public class PriceRepositoryAdapterTest {
   void getPriceById() {
 
     when(priceRepository.findById(1L))
-        .thenReturn(Optional.of(BuilderObjectMocks.priceEntity1));
+        .thenReturn(Optional.of(mapper.getPriceEntity1()));
 
     Mono<Price> result = adapter.getPriceById(1L);
 
@@ -67,10 +68,10 @@ public class PriceRepositoryAdapterTest {
         .assertNext(price -> {
           assertThat(price).isNotNull();
           assertThat(price.getProductId().equals(productId));
-          assertThat(price.getPriority()).isEqualTo(0);
+          assertThat(price.getPriority()).isZero();
           assertThat(price.getPrice()).isEqualByComparingTo("35.50");
           assertThat(price.getCurr()).isEqualTo(BuilderObjectMocks.CURRENCY_CODE);
-          assertThat(price.getPriceList()).isEqualTo(1L);
+          assertThat(price.getPriceList()).isEqualTo(1);
 
         })
         .verifyComplete();
@@ -83,7 +84,7 @@ public class PriceRepositoryAdapterTest {
   void getByProductBrandAndDate() {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
     when(priceRepository.findTopByProductBrandAndDate(productId, 1, date))
-        .thenReturn(BuilderObjectMocks.getListPricesRangeDate());
+        .thenReturn(mapper.getListPricesRangeDate());
 
     Flux<Price> result = adapter.getPricesByDate(productId, 1, date);
 
