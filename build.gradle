@@ -54,6 +54,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -127,5 +129,13 @@ sonarqube {
         property "sonar.tests", "src/test/java"
         property "sonar.java.binaries", "build/classes/java/main"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.coverage.exclusions", """
+                    **/*Test.java,
+                    **/steps/**,
+                    **/config/**,
+                    **/*Application**,
+                    **/ApiUtil.class,
+                    **/model/**
+    """
     }
 }

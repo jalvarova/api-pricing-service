@@ -1,10 +1,12 @@
 package com.ecommerce.pricing.infrastructure.config;
 
 import com.ecommerce.pricing.infrastructure.db.repository.PriceRepositoryAdapter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Slf4j
 @Configuration
 public class VerifyDatabaseComponent {
 
@@ -12,8 +14,7 @@ public class VerifyDatabaseComponent {
   public CommandLineRunner verifyDatabase(PriceRepositoryAdapter port) {
     return args -> {
       long count = port.selectCount().block();
-      System.out.println(
-          ">>> PRICES table has " + count + " rows.");
+      log.info(">>> PRICES table has {} rows.", count);
       port
           .getAllPricesByProductId(35455L)
           .toIterable()

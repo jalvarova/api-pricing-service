@@ -3,9 +3,7 @@ package com.ecommerce.pricing.infrastructure.controller.api;
 import com.ecommerce.pricing.application.service.PriceServiceAdapter;
 import com.ecommerce.pricing.domain.model.PriceRequest;
 import com.ecommerce.pricing.domain.model.PriceResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +14,9 @@ import reactor.core.publisher.Mono;
 
 @Validated
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PriceController implements PricingControllerApi {
 
-  @Autowired
   private PriceServiceAdapter adapter;
 
   @Override
