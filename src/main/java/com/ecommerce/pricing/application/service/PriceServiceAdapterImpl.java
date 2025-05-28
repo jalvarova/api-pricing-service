@@ -15,9 +15,9 @@ import reactor.core.publisher.Mono;
 @Service
 public class PriceServiceAdapterImpl implements PriceServiceAdapter {
 
-  GetAllPriceForProductUseCase getAllPriceForProductUseCase;
-  GetPriceForIdentifierUseCase getPriceForIdentifierUseCase;
-  GetPriceUseCase getPriceUseCase;
+  private final GetAllPriceForProductUseCase getAllPriceForProductUseCase;
+  private final GetPriceForIdentifierUseCase getPriceForIdentifierUseCase;
+  private final GetPriceUseCase getPriceUseCase;
 
   @Override
   public Flux<PriceResponse> getAllPriceByProduct(Long productId) {

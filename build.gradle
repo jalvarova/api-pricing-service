@@ -3,6 +3,9 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     id("java")
     id("org.openapi.generator") version "7.4.0"
+    id 'jacoco'
+    id "org.sonarqube" version "4.4.1.3373"
+
 }
 
 group = "com.example"
@@ -13,6 +16,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+jacoco {
+    toolVersion = "0.8.10"
 }
 
 configurations {
@@ -85,4 +92,40 @@ sourceSets["main"].java {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+    classDirectories.setFrom(
+            files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        '**/FormatData_*.class',
+                        '**/META-INF/**',
+                        '**/*Application**',
+                        '**/*Exception.class',
+                        '**/PricingControllerApi.class',
+                        '**/ApiUtil.class',
+                        '**/config/**',
+                        '**/model/**',
+                ])
+            })
+    )
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", System.getenv("SONAR_TOKEN")
+        property "sonar.projectKey", "api-pricing-service"
+        property "sonar.projectName", "API Pricing Service"
+        property "sonar.projectVersion", "1.0"
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.java.binaries", "build/classes/java/main"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+    }
 }
