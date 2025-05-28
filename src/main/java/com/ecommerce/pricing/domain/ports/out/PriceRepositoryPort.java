@@ -7,17 +7,62 @@ import reactor.core.publisher.Mono;
 
 public interface PriceRepositoryPort {
 
+  /**
+   * Obetner el precio de un producto por determinada fecha y validar su prioridad.
+   *
+   * @param productId
+   * @param brandId
+   * @param date
+   * @return Price
+   */
   Flux<Price> getPricesByDate(Long productId, Integer brandId, LocalDateTime date);
 
+  /**
+   *
+   * Obtener el precip por su identificador.
+   *
+   * @param id
+   * @return Price
+   */
   Mono<Price> getPriceById(Long id);
 
+  /**
+   *
+   * Obtener el nuemero de registros.
+   *
+   * @return Long
+   */
   Mono<Long> selectCount();
 
+  /**
+   * Obtener los precios de un producto.
+   *
+   * @param productId
+   * @return ListPrices
+   */
   Flux<Price> getAllPricesByProductId(Long productId);
 
+  /**
+   * Guargar los precios configurados de un producto.
+   *
+   ** @param price
+   * @return ListPrices
+   */
   Mono<Price> save(Price price);
 
+  /**
+   * Actualizar los precios configurados de un producto.
+   *
+   * @param price
+   * @return ListPrices
+   */
   Mono<Price> update(Price price);
 
+  /**
+   * Eliminar los precios configurados de un producto por id.
+   *
+   * @param id
+   * @return ListPrices
+   */
   Mono<Price> deleteById(Long id);
 }
