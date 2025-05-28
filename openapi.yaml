@@ -13,6 +13,9 @@ servers:
 paths:
   /prices/search:
     post:
+      tags:
+        - PricingController
+      operationId: getFinalPrice
       summary: Consultar precio aplicable
       requestBody:
         required: true
@@ -32,6 +35,9 @@ paths:
 
   /prices/{productId}/product:
     get:
+      tags:
+        - PricingController
+      operationId: getPriceForProduct
       parameters:
         - in: path
           name: productId
@@ -53,7 +59,10 @@ paths:
 
   /prices/{id}:
     get:
-      summary: Obtener precios de un producto por su ID
+      tags:
+        - PricingController
+      operationId: getPriceForIdentifier
+      summary: Obtener el precio del producto por su id
       parameters:
         - in: path
           name: id
