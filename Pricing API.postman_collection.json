@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "93bca049-1522-4f3e-866e-bce6832a1955",
+		"name": "Pricing API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9103349"
+	},
+	"item": [
+		{
+			"name": "ACTUATOR",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/pricing/actuator",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pricing",
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HEALTH",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/pricing/actuator/health",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pricing",
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ALLBYPRODUCT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/pricing/prices/{{PRODUCT_ID}}/product",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pricing",
+						"prices",
+						"{{PRODUCT_ID}}",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BY_ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/pricing/prices/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pricing",
+						"prices",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SEARCH",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"applicationDate\": \"2020-06-14T16:00:00Z\",\n  \"productId\": 35456,\n  \"brandId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/pricing/prices/search",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pricing",
+						"prices",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SWAGGER",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/pricing/webjars/swagger-ui/index.html",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pricing",
+						"webjars",
+						"swagger-ui",
+						"index.html"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
