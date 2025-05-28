@@ -1,5 +1,6 @@
 package com.ecommerce.pricing.util;
 
+import com.ecommerce.pricing.domain.model.Price;
 import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -93,4 +94,20 @@ public class BuilderObjectMocks {
     return Arrays.asList(priceEntity1, priceEntity2);
   }
 
+  public static List<Price> getPricesByDate() {
+    return Arrays.asList(buildDomain(priceEntity1), buildDomain(priceEntity2));
+  }
+
+  private static Price buildDomain(PriceEntity entity) {
+    return Price.builder()
+        .price(entity.getPrice())
+        .priceList(entity.getPriceList())
+        .brandId(entity.getBrandId())
+        .productId(entity.getProductId())
+        .startDate(entity.getStartDate())
+        .priority(entity.getPriority())
+        .endDate(entity.getEndDate())
+        .curr(entity.getCurr())
+        .build();
+  }
 }
