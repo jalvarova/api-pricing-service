@@ -58,14 +58,17 @@ openApiGenerate {
     outputDir.set("$buildDir/generated")
     apiPackage.set("com.ecommerce.pricing.infrastructure.controller.api")
     modelPackage.set("com.ecommerce.pricing.domain.model")
+    invokerPackage.set("com.ecommerce.pricing")
+
     configOptions = [
+            basePackage   : "com.ecommerce.pricing",
             useSwaggerAnnotations: 'false',
-            interfaceOnly: 'true',
+            interfaceOnly : 'true',
             useSpringBoot3: 'true',
             reactive: 'true',
             dateLibrary: 'java8',
-            useTags: 'true',
-            controllerName : "PricingApi"
+            useTags       : 'true',
+            controllerName: "PricingApi"
 
     ]
 }

@@ -15,16 +15,15 @@ import reactor.core.publisher.Mono;
 
 
 @Validated
-@Tag(name = "PriceApi", description = "API de Consulta de Precios")
 @RestController
 @RequiredArgsConstructor
-public class PriceController implements DefaultApi {
+public class PriceController implements PricingControllerApi {
 
   @Autowired
   private PriceServiceAdapter adapter;
 
   @Override
-  public Mono<ResponseEntity<PriceResponse>> pricesIdGet(Integer id,
+  public Mono<ResponseEntity<PriceResponse>> getPriceForIdentifier(Integer id,
       ServerWebExchange exchange) {
     return Mono.just(id)
         .flatMap(integer -> adapter.getPriceForIdentifier(Long.valueOf(integer)))
@@ -33,7 +32,7 @@ public class PriceController implements DefaultApi {
   }
 
   @Override
-  public Mono<ResponseEntity<Flux<PriceResponse>>> pricesProductIdProductGet(Integer productId,
+  public Mono<ResponseEntity<Flux<PriceResponse>>> getPriceForProduct(Integer productId,
       ServerWebExchange exchange) {
     return Mono.just(adapter.getAllPriceByProduct(Long.valueOf(productId)))
         .map(ResponseEntity::ok)
@@ -41,7 +40,7 @@ public class PriceController implements DefaultApi {
   }
 
   @Override
-  public Mono<ResponseEntity<PriceResponse>> pricesSearchPost(Mono<PriceRequest> priceRequest,
+  public Mono<ResponseEntity<PriceResponse>> getFinalPrice(Mono<PriceRequest> priceRequest,
       ServerWebExchange exchange) {
     return priceRequest
         .map(request -> adapter.getPriceProduct(Long.valueOf(request.getProductId()),

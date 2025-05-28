@@ -3,6 +3,8 @@ package com.ecommerce.pricing.domain.mappers;
 import com.ecommerce.pricing.domain.model.Price;
 import com.ecommerce.pricing.domain.model.PriceResponse;
 import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.function.Function;
 
 @FunctionalInterface
@@ -30,6 +32,7 @@ public interface PriceMapper {
         response.setPriceList(domain.getPriceList());
         response.setBrandId(domain.getBrandId());
         response.setProductId(domain.getProductId().intValue());
+        response.setAppDate(LocalDateTime.now().atOffset(ZoneOffset.UTC));
         response.setCurrency(domain.getCurr());
         return response;
       };
