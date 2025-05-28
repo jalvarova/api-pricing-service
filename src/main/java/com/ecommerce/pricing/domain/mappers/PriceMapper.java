@@ -1,6 +1,7 @@
 package com.ecommerce.pricing.domain.mappers;
 
 import com.ecommerce.pricing.domain.model.Price;
+import com.ecommerce.pricing.domain.model.PriceResponse;
 import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
 import java.util.function.Function;
 
@@ -21,4 +22,15 @@ public interface PriceMapper {
               .endDate(entity.getEndDate())
               .curr(entity.getCurr())
               .build();
+
+  Function<Price, PriceResponse> toApi =
+      (Price domain) -> {
+        PriceResponse response = new PriceResponse();
+        response.setPrice(domain.getPrice().floatValue());
+        response.setPriceList(domain.getPriceList());
+        response.setBrandId(domain.getBrandId());
+        response.setProductId(domain.getProductId().intValue());
+        response.setCurrency(domain.getCurr());
+        return response;
+      };
 }

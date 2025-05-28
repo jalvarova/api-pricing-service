@@ -1,8 +1,14 @@
 openapi: 3.0.3
 info:
-  title: Price API
+  title: API de Consulta de Precios
   version: 1.0.0
   description: API para consultar precios aplicables a productos
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local para desarrollo
+  - url: https://api-pricing-service-936595159798.us-central1.run.app
+    description: Servidor de producción
 
 paths:
   /prices/search:
@@ -32,6 +38,8 @@ paths:
           required: true
           schema:
             type: integer
+            default: 35456
+            example: 35456
       summary: Obtener todos los precios por un producto
       responses:
         '200':
@@ -52,6 +60,8 @@ paths:
           required: true
           schema:
             type: integer
+            default: 1
+            example: 1
       responses:
         '200':
           description: Precio encontrado
@@ -73,13 +83,16 @@ components:
         applicationDate:
           type: string
           format: date-time
-          example: "2020-06-14T10:00:00"
+          example: "2020-06-14T16:00:00.000Z"
+          default: "2020-06-14T16:00:00.000Z"
         productId:
           type: integer
-          example: 35455
+          example: 35456
+          default: 35456
         brandId:
           type: integer
           example: 1
+          default: 1
     PriceResponse:
       type: object
       properties:
@@ -89,14 +102,11 @@ components:
           type: integer
         priceList:
           type: integer
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
         price:
           type: number
           format: float
+        appDate:
+          type: string
+          format: date-time
         currency:
           type: string
