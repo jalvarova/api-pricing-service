@@ -1,15 +1,14 @@
 plugins {
-    id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("java")
-    id("org.openapi.generator") version "7.4.0"
+    id 'org.springframework.boot' version '3.5.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.openapi.generator' version '7.4.0'
     id 'jacoco'
-    id "org.sonarqube" version "4.4.1.3373"
-
+    id 'org.sonarqube' version '4.4.1.3373'
 }
 
 group = "com.example"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 java {
@@ -18,8 +17,10 @@ java {
     }
 }
 
-jacoco {
-    toolVersion = "0.8.10"
+ext {
+    set('springCloudVersion', '2025.0.0-RC1')
+    set('springdocVersion', '2.5.0')
+    set('lombokVersion', '1.18.30')
 }
 
 configurations {
@@ -33,53 +34,37 @@ repositories {
     maven { url 'https://repo.spring.io/milestone' }
 }
 
-ext {
-    set('springCloudVersion', "2025.0.0-RC1")
-}
-
-
 dependencies {
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0")
-    implementation 'org.springdoc:springdoc-openapi-starter-common:2.5.0'
 
+    // --- Spring Boot ---
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // --- OpenAPI ---
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${springdocVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-common:${springdocVersion}"
     implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
-    compileOnly 'org.projectlombok:lombok'
+
+    // --- Dev Tools ---
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-    annotationProcessor 'org.projectlombok:lombok'
+
+    // --- Lombok ---
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // --- Test ---
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-
-
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
 
-// OpenAPI Generator
-openApiGenerate {
-    generatorName.set("spring")
-    inputSpec.set("$rootDir/openapi.yaml")
-    outputDir.set("$buildDir/generated")
-    apiPackage.set("com.ecommerce.pricing.infrastructure.controller.api")
-    modelPackage.set("com.ecommerce.pricing.domain.model")
-    invokerPackage.set("com.ecommerce.pricing")
+    // --- Runtime ---
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly 'com.h2database:h2'
 
-    configOptions = [
-            basePackage   : "com.ecommerce.pricing",
-            useSwaggerAnnotations: 'false',
-            interfaceOnly : 'true',
-            useSpringBoot3: 'true',
-            reactive: 'true',
-            dateLibrary: 'java8',
-            useTags       : 'true',
-            controllerName: "PricingApi"
 
-    ]
 }
 
 dependencyManagement {
@@ -88,12 +73,14 @@ dependencyManagement {
     }
 }
 
-sourceSets["main"].java {
-    srcDir("$buildDir/generated/src/main/java")
-}
+sourceSets.main.java.srcDir "$buildDir/generated/src/main/java"
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = "0.8.10"
 }
 
 jacocoTestReport {
@@ -116,6 +103,26 @@ jacocoTestReport {
                 ])
             })
     )
+}
+
+// OpenAPI Generator
+openApiGenerate {
+    generatorName.set("spring")
+    inputSpec.set("$rootDir/openapi.yaml")
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("com.ecommerce.pricing.infrastructure.controller.api")
+    modelPackage.set("com.ecommerce.pricing.domain.model")
+    invokerPackage.set("com.ecommerce.pricing")
+    configOptions.set([
+            basePackage        : "com.ecommerce.pricing",
+            useSwaggerAnnotations: "false",
+            interfaceOnly      : "true",
+            useSpringBoot3     : "true",
+            reactive           : "true",
+            dateLibrary        : "java8",
+            useTags            : "true",
+            controllerName     : "PricingApi"
+    ])
 }
 
 sonarqube {
