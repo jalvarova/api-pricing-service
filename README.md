@@ -24,13 +24,13 @@
 
 ## 🎯 Descripción <a id="description"></a>
 
-Esta API expone precios y tarifas asociadas a productos. Provee endpoints para consultar precios vigentes por fechas y reglas de tarifas. Está diseñada para integrarse con otros microservicios de un ecosistema e-commerce más amplio.
+Esta API expone precios y tarifas asociadas a productos. Provee endpoints para consultar precios vigentes por fechas y reglas de tarifas. Está diseñada para integrarse con otros microservicios de un ecosistema e-commerce más robustos.
 
 ---
 
 ## ⚙️ Instalación y Configuración <a id="config"></a>
 
-La instalacion en un entorno local, tiene una seríe de pre requisitos que se debe de configurar para poder realizar la compilación, startup de la aplicación, test, reportes y hasta el despliegue en un erotno Cloug como GCP. Donde desplegaremos en el servicio de Cloud Run(tener conocimietos previos enm IAM, Habilitar Endpoint, Configurar Artifacts).
+La instalación en un entorno local, tiene una serié de prerrequisitos que se debe de configurar para poder realizar la compilación, startup de la aplicación, test, reportes y hasta el despliegue en un entorno Cloug como GCP. Donde desplegaremos la API en Cloud Run(tener conocimientos previos en IAM, Habilitar Endpoint y Configurar Artifacts).
 
 🖥️ Pre requisitos
 
@@ -71,7 +71,7 @@ cd api-pricing-service
 ./gradlew bootRun
 ```
 
-> Configurar Google Cloud, construir imagen con Docker y desplegar con Cloud Run
+> Configurar Google Cloud, construir imagen con Docker y desplegar con Cloud Run.
 
 ```bash
 export GCP_PROJECT_ID=project_id
@@ -100,7 +100,30 @@ gcloud run deploy api-pricing-service \
             --set-env-vars URL_DATABASE=$URL_DATABASE,USER_DATABASE=$USER_DATABASE,APP_PORT=$APP_PORT
 ```
 
-> Configuración opcional de HV
+### Configuración opcional para conectarse a HV u obtener los secretos
+
+> Dependencia de Hashircop Vault.
+
+```groovy
+implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
+```
+
+> Agregar configuración de conexión en application.yaml.
+
+```yaml
+spring:
+  cloud:
+    vault:
+      uri: '${VAULT_URL}'
+      authentication: '${VAULT_TYPE_TOKEN}'
+      token: '${VAULT_TOKEN}'
+      kv:
+        enabled: true
+        backend: secret
+        default-context: '${VAULT_SECRET}'
+```
+
+> Cear los secrets en HV.
 
 ```bash
 export VAULT_ADDR=http://localhost:8200
@@ -120,7 +143,7 @@ vault kv get secret/api/pricing-v1
 
 ## 🧪 Ejecución de Tests <a id="execution-test"></a>
 
-Los test estamos imnplementando Test unitarios y de integracion siguiento el patrón BDD para escribir los test y probar la aplicación, dando como resultado los reportes de cobertura de código en Jacoco y Sonar. Para ellos deben de habilitar un Sonar local y crear un token para poder ingestar las resultados.
+Los test estamos implementando Test unitarios y de integración siguiente el patrón BDD para escribir los test y probar la aplicación, dando como resultado los reportes de cobertura de código en Jacoco y Sonar. Para ellos deben de habilitar un Sonar local y crear un token para poder ingestar el resultado.
 
 > Sonar Local com Docker Compose
 
@@ -155,7 +178,7 @@ volumes:
   sonar-db-data:
 ```
 
-> Ejecutar los test para ver los resultados y corregir los issue y alcazar el porcentaje aceptado de cobertura.
+> Ejecutar los test para ver los resultados, corregir los issue y alcanzar el porcentaje aceptado de cobertura.
 
 ```bash
 # Ejecutar tests unitarios
