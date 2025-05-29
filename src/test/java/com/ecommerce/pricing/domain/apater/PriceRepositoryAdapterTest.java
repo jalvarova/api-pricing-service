@@ -44,7 +44,7 @@ class PriceRepositoryAdapterTest {
   @DisplayName("get all the prices of a product")
   void getAllPricesByProductId() {
 
-    when(priceRepository.findAllByProductId(productId))
+    when(priceRepository.findPrecesByProductId(productId))
         .thenReturn(mapper.getListPricesByProduct());
 
     Flux<Price> result = adapter.getAllPricesByProductId(productId);
@@ -52,7 +52,7 @@ class PriceRepositoryAdapterTest {
     StepVerifier.create(result)
         .expectNextCount(4).verifyComplete();
 
-    verify(priceRepository).findAllByProductId(productId);
+    verify(priceRepository).findPrecesByProductId(productId);
   }
 
   @Test
@@ -83,16 +83,24 @@ class PriceRepositoryAdapterTest {
   @DisplayName("Get the price for a date range by product and brand")
   void getByProductBrandAndDate() {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
-    when(priceRepository.findTopByProductBrandAndDate(productId, 1, date))
-        .thenReturn(mapper.getListPricesRangeDate());
+    when(priceRepository.findApplicablePrice(productId, 1, date))
+        .thenReturn(mapper.getPriceEntity1());
 
     Flux<Price> result = adapter.getPricesByDate(productId, 1, date);
 
     StepVerifier.create(result)
-        .expectNextCount(2)
+        .assertNext(price -> {
+          assertThat(price).isNotNull();
+          assertThat(price.getProductId().equals(productId));
+          assertThat(price.getPriority()).isZero();
+          assertThat(price.getPrice()).isEqualByComparingTo("35.50");
+          assertThat(price.getCurr()).isEqualTo(BuilderObjectMocks.CURRENCY_CODE);
+          assertThat(price.getPriceList()).isEqualTo(1);
+
+        })
         .verifyComplete();
 
-    verify(priceRepository).findTopByProductBrandAndDate(productId, 1, date);
+    verify(priceRepository).findApplicablePrice(productId, 1, date);
   }
 
 }

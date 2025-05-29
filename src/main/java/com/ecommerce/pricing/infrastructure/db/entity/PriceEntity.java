@@ -40,10 +40,10 @@ public class PriceEntity {
   @Column(name = "product_id", nullable = false)
   private Long productId;
 
-  @Column(nullable = false)
+  @Column(name = "priority", nullable = false)
   private Integer priority;
 
-  @Column(nullable = false)
+  @Column(name = "price", nullable = false)
   private BigDecimal price;
 
   @Column(length = 3, nullable = false)

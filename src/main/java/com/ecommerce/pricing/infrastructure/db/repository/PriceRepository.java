@@ -16,12 +16,16 @@ public interface PriceRepository extends CrudRepository<PriceEntity, Long> {
                AND p.brandId = :brandId
                AND :applicationDate BETWEEN p.startDate AND p.endDate
              ORDER BY p.priority DESC
+             LIMIT 1
           """)
-  List<PriceEntity> findTopByProductBrandAndDate(
+  PriceEntity findApplicablePrice(
       @Param("productId") Long productId,
       @Param("brandId") Integer brandId,
       @Param("applicationDate") LocalDateTime applicationDate);
 
-  List<PriceEntity> findAllByProductId(Long productId);
+  @Query("SELECT p FROM PriceEntity p WHERE p.productId = :productId ORDER BY p.startDate DESC")
+  List<PriceEntity> findPrecesByProductId(Long productId);
 
+  @Query("SELECT p FROM PriceEntity p WHERE p.id = :id")
+  PriceEntity findPriceById(@Param("id") Long id);
 }
