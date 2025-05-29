@@ -1,6 +1,6 @@
 # 🛍️ API Pricing 
 
-![Java](https://img.shields.io/badge/Java-17-blue?logo=java)
+![Java](https://img.shields.io/badge/Java-21-blue?logo=java)
 ![Spring Boot](https://img.shields.io/badge/SpringBoot-green?logo=spring)
 ![Hexagonal Architecture](https://img.shields.io/badge/Architecture-Hexagonal-ff69b4)![Status](https://img.shields.io/badge/Status-Stable-green)
 
@@ -307,13 +307,13 @@ flowchart TD
 %%{init: {
   "theme": "base",
   "themeVariables": {
-    "background": "#F9FAFB",
+    "background": "#1d01ff",
     "primaryColor": "#F0F4FF",
-    "primaryTextColor": "#1F2937",
+    "primaryTextColor": "#fefeff",
     "primaryBorderColor": "#C7D2FE",
     "lineColor": "#4B5563",
     "actorBorder": "#93C5FD",
-    "actorBkg": "#E0F2FE"
+    "actorBkg": "#2838a6"
   }
 }}%%
 sequenceDiagram
@@ -360,11 +360,10 @@ Este diagrama representa el flujo completo de entrega continua para la **API Pri
 flowchart LR
   %% CI Section
   subgraph CI ["CI Pipeline"]
-    style CI fill:#f9f,stroke:#333,stroke-width:2px
-    GA["<img src='https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white' width='24'/><br/> Trigger on Push"]
-    JC["<img src='https://img.shields.io/badge/Java-ED8B00?logo=java&logoColor=white' width='24'/><br/>Set up JDK 21"]
-    GRADLE["<img src='https://img.shields.io/badge/Gradle-02303A?logo=gradle&logoColor=white' width='24'/><br/>Grant ./gradlew exec"]
-    TEST["<img src='https://img.shields.io/badge/Tests%20&%20Coverage-FC515A?logo=jacoco&logoColor=white' width='24'/><br/>Run clean test jacocoTestReport"]
+    GA["<img src='https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white' width='32'/><br/> Trigger on Push"]
+    JC["<img src='https://img.shields.io/badge/Java-ED8B00?logo=java&logoColor=white' width='32'/><br/>Set up JDK 21"]
+    GRADLE["<img src='https://img.shields.io/badge/Gradle-02303A?logo=gradle&logoColor=white' width='32'/><br/>Grant ./gradlew exec"]
+    TEST["<img src='https://img.shields.io/badge/Tests%20&%20Coverage-FC515A?logo=jacoco&logoColor=white' width='32'/><br/>Run clean test jacocoTestReport"]
     SONAR["<img src='https://img.shields.io/badge/SonarQube-4E9BCD?logo=sonarqube&logoColor=white' width='24'/><br/>Run sonarqube"]
     GA --> JC --> GRADLE --> TEST --> SONAR
   end
@@ -375,13 +374,12 @@ flowchart LR
 
   %% CD Section
   subgraph CD ["CD Pipeline"]
-    style CD fill:#9ff,stroke:#333,stroke-width:2px
-    BUILD["<img src='https://img.shields.io/badge/Build%20&%20OpenAPI-6CC24A?logo=openapiinitiative&logoColor=white' width='24'/><br/>clean openApiGenerate build --no-daemon"]
-    GCP["<img src='https://img.shields.io/badge/Google_Cloud-4285F4?logo=googlecloud&logoColor=white' width='24'/><br/>GCP SDK & Auth"]
-    DOCKER_AUTH["<img src='https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white' width='24'/><br/>Configure Auth"]
-    DOCKER_BUILD["<img src='https://img.shields.io/badge/Docker_Build-2496ED?logo=docker&logoColor=white' width='24'/><br/>Build Image"]
-    DOCKER_PUSH["<img src='https://img.shields.io/badge/Push%20Image-2496ED?logo=docker&logoColor=white' width='24'/><br/>Push to Registry"]
-    CR["<img src='https://img.shields.io/badge/Cloud_Run-4285F4?logo=googlecloud&logoColor=white' width='24'/><br/>Deploy to Cloud Run"]
+    BUILD["<img src='https://img.shields.io/badge/Build%20&%20OpenAPI-6CC24A?logo=openapiinitiative&logoColor=white' width='32'/><br/>clean openApiGenerate build --no-daemon"]
+    GCP["<img src='https://img.shields.io/badge/Google_Cloud-4285F4?logo=googlecloud&logoColor=white' width='32'/><br/>GCP SDK & Auth"]
+    DOCKER_AUTH["<img src='https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white' width='32'/><br/>Configure Auth"]
+    DOCKER_BUILD["<img src='https://img.shields.io/badge/Docker_Build-2496ED?logo=docker&logoColor=white' width='32'/><br/>Build Image"]
+    DOCKER_PUSH["<img src='https://img.shields.io/badge/Push%20Image-2496ED?logo=docker&logoColor=white' width='32'/><br/>Push to Registry"]
+    CR["<img src='https://img.shields.io/badge/Cloud_Run-4285F4?logo=googlecloud&logoColor=white' width='32'/><br/>Deploy to Cloud Run"]
     BUILD --> GCP --> DOCKER_AUTH --> DOCKER_BUILD --> DOCKER_PUSH --> CR
   end
 
@@ -389,7 +387,7 @@ flowchart LR
   DEPLOY([Start CD]) --> BUILD
 ```
 
-## 💡 Stack Tecnológico  <a id="stack"></a>
+## 💡 Stack Tecnológico <a id="stack"></a>
 
 
 | Tecnología               | Descripción                                                        | Badge                                                                                   |
@@ -405,9 +403,9 @@ flowchart LR
 | **JaCoCo**                | Medición de cobertura de pruebas.                                   | ![JaCoCo](https://img.shields.io/badge/Coverage-JaCoCo-green?logo=jacoco)             |
 | **Swagger / OpenAPI**     | Documentación y sandbox de la API REST.                             | ![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-blue?logo=swagger)            |
 | **Mermaid**               | Generación de diagramas en Markdown (arquitectura y secuencias).    | ![Mermaid](https://img.shields.io/badge/Diagrams-Mermaid-00D1B2?logo=mermaid)         |
-| **Sonar Qube**            | Generación de diagramas en Markdown (arquitectura y secuencias).    | ![SonarQube](https://img.shields.io/badge/SonarQube-Quality-4E9BCD?logo=sonarqube&logoColor=white) |
-| **GitHub Actions**        | Generación de diagramas en Markdown (arquitectura y secuencias).    | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?logo=githubactions&logoColor=white) |
-| **Cloud Run**             | Generación de diagramas en Markdown (arquitectura y secuencias).    | ![Cloud Run](https://img.shields.io/badge/Cloud_Run-Google_Cloud-4285F4?logo=googlecloud) |
+| **Sonar Qube**            | Herramienta de análisis estático para asegurar la calidad del código, detectar errores, vulnerabilidades y mantener buenas prácticas de desarrollo.    | ![SonarQube](https://img.shields.io/badge/SonarQube-Quality-4E9BCD?logo=sonarqube&logoColor=white) |
+| **GitHub Actions**        | GitHub Actions es una herramienta de integración continua y entrega continua (CI/CD).    | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?logo=githubactions&logoColor=white) |
+| **Cloud Run**             | Cloud Run es un servicio de Google Cloud Platform (GCP) que te permite desplegar y ejecutar aplicaciones en contenedores (Docker)     | ![Cloud Run](https://img.shields.io/badge/Cloud_Run-Google_Cloud-4285F4?logo=googlecloud) |
 
 ---
 
