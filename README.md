@@ -1,6 +1,4 @@
-# api-pricing-service
-
-# 🛍️ Ecommerce Pricing API
+# 🛍️ API Pricing 
 
 ![Java](https://img.shields.io/badge/Java-17-blue?logo=java)
 ![Spring Boot](https://img.shields.io/badge/SpringBoot-green?logo=spring)
@@ -122,7 +120,7 @@ vault kv get secret/api/pricing-v1
 
 ## 🧪 Ejecución de Tests <a id="execution-test"></a>
 
-Los test estamos imnplementando Test unitarios y de integracion siguiento el patro BDD para escribir los test y probar la aplicación, dando como resultado los reportes de cobertura de código en Jacoco y Sonar. Para ellos deben de habilitar un Sonar local y crear un token para poder ingestar las resultados.
+Los test estamos imnplementando Test unitarios y de integracion siguiento el patrón BDD para escribir los test y probar la aplicación, dando como resultado los reportes de cobertura de código en Jacoco y Sonar. Para ellos deben de habilitar un Sonar local y crear un token para poder ingestar las resultados.
 
 > Sonar Local com Docker Compose
 
@@ -179,9 +177,75 @@ volumes:
 
 ---
 
-## 🏗️ Arquitectura <a id="architecture"></a>
+## 🧩 Arquitectura <a id="architecture"></a>
 
+Este proyecto implementa una arquitectura **Hexagonal (puertos y adaptadores)** para garantizar un diseño limpio, desacoplado y alineado con los principios SOLID, facilitando su mantenimiento, escalabilidad y testeo.
+El desarrollo se basa en un enfoque **API First**, utilizando **OpenAPI 3** para definir el contrato desde el inicio. A partir del contrato se generan automáticamente los DTOs de entrada y salida, asegurando consistencia entre la interfaz y la lógica interna.
 
+### 🔧 Capas de la arquitectura
+
+#### 1. Dominio (`domain`)
+
+Contiene el núcleo del negocio, sin dependencias externas:
+
+- **Modelo (`model`)**: Define la entidad principal `Price`.
+- **Mappers**: Se realiza el Build entre entidades de dominio y estructuras externas.
+- **Puertos**:
+  - `ports.in`: Interfaces que definen los casos de uso disponibles para el exterior.
+  - `ports.out`: Interfaces que abstraen el acceso a servicios externos como bases de datos o caches.
+
+#### 2. Aplicación (`application`)
+
+Contiene la lógica de negocio implementada como **casos de uso**:
+
+- `GetPriceUseCaseImpl`
+- `GetAllPriceForProductUseCaseImpl`
+- `GetPriceForIdentifierUseCaseImpl`
+
+También incluye servicios que coordinan estos casos de uso (`PriceServiceAdapterImpl`).
+
+#### 3. Infraestructura (`infrastructure`)
+
+Incluye los adaptadores que permiten al sistema interactuar con el mundo exterior:
+
+- **Controladores (`controller.api`)**: Implementan la interfaz REST mediante Spring WebFlux.
+- **Base de datos (`db`)**: Implementación de los repositorios y entidades persistentes.
+
+---
+
+## ✅ Ventajas de esta arquitectura
+
+- **Separación clara de responsabilidades.**
+- **Lógica del negocio aislada de detalles técnicos.**
+- **Facilidad para realizar pruebas unitarias y de integración.**
+- **Flexibilidad para reemplazar tecnologías (por ejemplo, base de datos o capa web).**
+
+---
+
+## 📁 Estructura del proyecto
+
+```bash
+src
+└── main
+    └── java
+        └── com.ecommerce.pricing
+            ├── application
+            │   ├── service
+            │   └── usecase
+            ├── domain
+            │   ├── mappers
+            │   ├── model
+            │   └── ports (in/out)
+            ├── infrastructure
+            │   ├── config
+            │   ├── controller.api
+            │   └── db
+            └── ApiPricingServiceApplication.java
+````
+
+## 🧭 Diagrama de arquitectura
+
+A continuación se presenta un diagrama representativo de la arquitectura hexagonal del servicio:
 
 ```mermaid
 %%{init: {"theme":"default"}}%%
