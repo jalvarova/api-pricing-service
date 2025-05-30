@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
-public class GetPriceByIdUseCaseTest {
+class GetPriceByIdUseCaseTest {
 
   @Mock
   private PriceRepositoryPort priceRepository;
