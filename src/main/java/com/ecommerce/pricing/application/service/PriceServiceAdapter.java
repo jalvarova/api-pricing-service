@@ -11,5 +11,5 @@ public interface PriceServiceAdapter {
 
   Mono<PriceResponse> getPriceForIdentifier(Long id);
 
-  Mono<PriceResponse> getPriceProduct(Long productId, Integer brandId, LocalDateTime date);
+  Mono<PriceResponse> getApplicablePrice(Long productId, Integer brandId, LocalDateTime date);
 }

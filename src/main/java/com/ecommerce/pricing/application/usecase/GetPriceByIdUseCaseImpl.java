@@ -4,11 +4,11 @@ import com.ecommerce.pricing.domain.model.Price;
 import com.ecommerce.pricing.domain.ports.in.GetPriceByIdUseCase;
 import com.ecommerce.pricing.domain.ports.out.PriceRepositoryPort;
 import com.ecommerce.pricing.infrastructure.config.TimedLog;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class GetPriceByIdUseCaseImpl implements GetPriceByIdUseCase {
 
@@ -16,7 +16,7 @@ public class GetPriceByIdUseCaseImpl implements GetPriceByIdUseCase {
 
   @TimedLog
   @Override
-  public Mono<Price> getPriceForIdentifier(Long id) {
-    return priceRepositoryPort.findPriceById(id);
+  public Mono<Price> getPriceForId(Long priceId) {
+    return priceRepositoryPort.findPriceById(priceId);
   }
 }

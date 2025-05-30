@@ -21,16 +21,16 @@ public class PriceServiceAdapterImpl implements PriceServiceAdapter {
 
   @Override
   public Flux<PriceResponse> getAllPriceByProduct(Long productId) {
-    return getAllPricesByProductIdUseCase.getAllPriceByProduct(productId).map(PriceMapper.toApi);
+    return getAllPricesByProductIdUseCase.getPricesByProductId(productId).map(PriceMapper.toApi);
   }
 
   @Override
   public Mono<PriceResponse> getPriceForIdentifier(Long id) {
-    return getPriceByIdUseCase.getPriceForIdentifier(id).map(PriceMapper.toApi);
+    return getPriceByIdUseCase.getPriceForId(id).map(PriceMapper.toApi);
   }
 
   @Override
-  public Mono<PriceResponse> getPriceProduct(Long productId, Integer brandId, LocalDateTime date) {
-    return getApplicablePriceUseCase.getPriceProduct(productId, brandId, date).map(PriceMapper.toApi);
+  public Mono<PriceResponse> getApplicablePrice(Long productId, Integer brandId, LocalDateTime date) {
+    return getApplicablePriceUseCase.getApplicablePrice(productId, brandId, date).map(PriceMapper.toApi);
   }
 }

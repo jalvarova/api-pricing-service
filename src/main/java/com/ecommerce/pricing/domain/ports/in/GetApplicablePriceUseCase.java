@@ -4,16 +4,21 @@ import com.ecommerce.pricing.domain.model.Price;
 import java.time.LocalDateTime;
 import reactor.core.publisher.Mono;
 
+/**
+ * Caso de uso para obtener el precio aplicable de un producto en una fecha específica,
+ * considerando la prioridad entre posibles precios coincidentes.
+ */
 public interface GetApplicablePriceUseCase {
 
   /**
-   * Obetner el precio de un producto por determinada fecha y validar su prioridad.
+   * Busca el precio aplicable para un producto, una marca y una fecha determinada.
+   * En caso de múltiples precios disponibles para el mismo intervalo, se selecciona el de mayor prioridad.
    *
-   * @param productId
-   * @param brandId
-   * @param date
-   * @return Price
+   * @param productId       identificador del producto
+   * @param brandId         identificador de la marca
+   * @param applicationDate fecha y hora de aplicación
+   * @return Mono que contiene el precio aplicable, o vacío si no se encuentra
    */
-  Mono<Price> getPriceProduct(Long productId, Integer brandId, LocalDateTime date);
+  Mono<Price> getApplicablePrice(Long productId, Integer brandId, LocalDateTime applicationDate);
 
 }
