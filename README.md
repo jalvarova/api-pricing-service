@@ -212,7 +212,6 @@ El desarrollo se basa en un enfoque **API First**, utilizando **OpenAPI 3** para
 Contiene el núcleo del negocio, sin dependencias externas:
 
 - **Modelo (`model`)**: Define la entidad principal `Price`.
-- **Mappers**: Se realiza el Build entre entidades de dominio y estructuras externas.
 - **Puertos**:
   - `ports.in`: Interfaces que definen los casos de uso disponibles para el exterior.
   - `ports.out`: Interfaces que abstraen el acceso a servicios externos como bases de datos o caches.
@@ -221,18 +220,19 @@ Contiene el núcleo del negocio, sin dependencias externas:
 
 Contiene la lógica de negocio implementada como **casos de uso**:
 
-- `GetPriceUseCaseImpl`
-- `GetAllPriceForProductUseCaseImpl`
-- `GetPriceForIdentifierUseCaseImpl`
+- `GetAllPricesByProductIdUseCaseImpl`
+- `GetApplicablePriceUseCaseImpl`
+- `GetPriceByIdUseCaseImpl`
 
-También incluye servicios que coordinan estos casos de uso (`PriceServiceAdapterImpl`).
+También incluye servicios que coordinan estos casos de uso (`PriceQueryFacadeImpl`).
 
 #### 3. Infraestructura (`infrastructure`)
 
 Incluye los adaptadores que permiten al sistema interactuar con el mundo exterior:
 
-- **Controladores (`controller.api`)**: Implementan la interfaz REST mediante Spring WebFlux.
-- **Base de datos (`db`)**: Implementación de los repositorios y entidades persistentes.
+- **Controladores (`adapter.in.controller.api`)**: Implementan la interfaz REST mediante Spring WebFlux.
+- **Base de datos (`adapter.out.repository`)**: Implementación de los repositorios y entidades persistentes.
+- **Mappers**: Se realiza el Build entre entidades y estructuras externas.
 
 ---
 
@@ -261,8 +261,9 @@ src
             │   └── ports (in/out)
             ├── infrastructure
             │   ├── config
-            │   ├── controller.api
-            │   └── db
+            │   └── adapter(in/out)
+            │       ├── in.controller
+            │       └── out.repsitory
             └── ApiPricingServiceApplication.java
 ````
 
@@ -275,51 +276,77 @@ A continuación se presenta un diagrama representativo de la arquitectura hexago
 flowchart TD
   subgraph "🔁 Domain Layer"
     Price["📦 Price (Model)"]
-    PortsIn["📥 Input Ports (Interfaces)"]
-    PortsOut["📤 Output Port (Repository Interface)"]
-    Mappers["🛠️ PriceMapper"]
+    PortsIn["📥 Ports In\n(GetPriceUseCase, etc.)"]
+    PortsOut["📤 Ports Out\n(PriceRepositoryPort)"]
   end
 
   subgraph "📦 Application Layer"
-    PriceService["🔧 PriceServiceAdapterImpl"]
-    UseCases[/"🧠 Use Cases"/]
-    GetPrice["📘 GetPriceUseCaseImpl"]
-    GetAllPrice["📘 GetAllPriceForProductUseCaseImpl"]
-    GetPriceForId["📘 GetPriceForIdentifierUseCaseImpl"]
+    Facade["🧩 PriceQueryFacadeImpl"]
+    GetPrice["📘 GetPriceByIdUseCaseImpl"]
+    GetAllPrices["📘 GetAllPricesByProductIdUseCaseImpl"]
+    GetApplicablePrice["📘 GetApplicablePriceUseCaseImpl"]
   end
 
   subgraph "🌐 Infrastructure Layer"
-    Controller["🧭 PriceController"]
-    Config["⚙️ Config (Aspects, Logging)"]
-    DBRepo["💾 PriceRepositoryAdapter"]
-    DBEntity["🧱 PriceEntity"]
-    JPARepo["🗄️ PriceRepository (JPA)"]
+    subgraph "🔌 Adapters"
+      subgraph "📥 Input Adapter"
+        Controller["🧭 RestPriceController"]
+      end
+      subgraph "📤 Output Adapter"
+        JpaAdapter["💾 JpaPriceRepositoryAdapter"]
+      end
+    end
+
+    subgraph "🧱 Persistence"
+      JPARepo["🗄️ PriceRepository (Spring Data JPA)"]
+      DBEntity["🧱 PriceEntity"]
+    end
+
+    subgraph "🛠️ Mappers"
+      DomainMapper["🔁 PriceMapper"]
+      EntityMapper["🔁 PriceEntityMapper"]
+    end
+
+    subgraph "⚙️ Config"
+      Aspects["📌 ScheduleAspect, TimedLog"]
+      Verifier["✅ VerifyDatabaseComponent"]
+    end
+
     AppMain["🚀 ApiPricingServiceApplication"]
   end
 
   %% Relationships
-  Controller -->|calls| PriceService
-  PriceService -->|delegates to| GetPrice
-  PriceService -->|delegates to| GetAllPrice
-  PriceService -->|delegates to| GetPriceForId
+  Controller -->|calls| Facade
+  Facade --> GetPrice
+  Facade --> GetAllPrices
+  Facade --> GetApplicablePrice
+
   GetPrice -->|implements| PortsIn
-  GetAllPrice -->|implements| PortsIn
-  GetPriceForId -->|implements| PortsIn
+  GetAllPrices -->|implements| PortsIn
+  GetApplicablePrice -->|implements| PortsIn
+
   GetPrice -->|uses| PortsOut
-  PortsOut -->|implemented by| DBRepo
-  DBRepo -->|uses| JPARepo
-  JPARepo -->|maps to| DBEntity
-  Mappers -->|maps| DBEntity & Price
-  Config -->|configured in| AppMain
+  GetAllPrices -->|uses| PortsOut
+  GetApplicablePrice -->|uses| PortsOut
+
+  PortsOut -->|implemented by| JpaAdapter
+  JpaAdapter -->|delegates to| JPARepo
+  JPARepo --> DBEntity
+
+  JpaAdapter -->|maps with| EntityMapper
+  Facade -->|maps with| DomainMapper
+
+  AppMain --> Aspects
+  AppMain --> Verifier
 
   %% Styling
   classDef domain fill:#FFFBE6,stroke:#333,stroke-width:1px;
   classDef app fill:#E6FFFA,stroke:#333,stroke-width:1px;
   classDef infra fill:#E6F0FF,stroke:#333,stroke-width:1px;
 
-  class Price,PortsIn,PortsOut,Mappers domain;
-  class PriceService,GetPrice,GetAllPrice,GetPriceForId,UseCases app;
-  class Controller,Config,DBRepo,DBEntity,JPARepo,AppMain infra;
+  class Price,PortsIn,PortsOut domain;
+  class Facade,GetPrice,GetAllPrices,GetApplicablePrice app;
+  class Controller,JpaAdapter,JPARepo,DBEntity,DomainMapper,EntityMapper,Aspects,Verifier,AppMain infra;
 ```
 
 ---
@@ -340,35 +367,39 @@ flowchart TD
   }
 }}%%
 sequenceDiagram
-    %% Personalización visual
     autonumber
-    %% Participantes con emojis e identificación de capas
+    %% Participantes por capas hexagonales
     participant 👤 Client
-    participant 🌐 PriceController
-    participant 📨 PriceRequestDTO
-    participant 🧠 GetPriceUseCase
+    participant 🌐 RestPriceController
+    participant 🧩 PriceQueryFacade
+    participant 🧠 GetApplicablePriceUseCase
     participant 🔌 PriceRepositoryPort
-    participant 🧱 H2RepositoryAdapter
-    participant 🗄️ SpringDataJPA
+    participant 🧱 JpaPriceRepositoryAdapter
+    participant 🗄️ SpringDataJPARepository
+    participant 🔁 PriceEntityMapper
 
     %% Flujo principal
-    👤 Client->>🌐 PriceController: POST /api/v1/pricing/prices/search
-    🌐 PriceController->>📨 PriceRequestDTO: parse(request)
-    📨 PriceRequestDTO-->>🌐 PriceController: domain parameters
-    🌐 PriceController->>🧠 GetPriceUseCase: getPriceProduct(date, productId, brandId)
+    👤 Client->>🌐 RestPriceController: GET /api/v1/pricing/prices?paramas
+    🌐 RestPriceController->>🧩 PriceQueryFacade: getApplicablePrice(requestDTO)
 
-    🧠 GetPriceUseCase->>🔌 PriceRepositoryPort: getPricesByDate(date, productId, brandId)
-    🔌 PriceRepositoryPort->>🧱 H2RepositoryAdapter: findTopByProductBrandAndDate(...)
-    🧱 H2RepositoryAdapter->>🗄️ SpringDataJPA: execute JPA query (date range)
-    🗄️ SpringDataJPA-->>🧱 H2RepositoryAdapter: List<PriceEntity>
-    🧱 H2RepositoryAdapter-->>🔌 PriceRepositoryPort: List<Price>
-    🔌 PriceRepositoryPort-->>🧠 GetPriceUseCase: List<Price>
+    🧩 PriceQueryFacade->>🧠 GetApplicablePriceUseCase: execute(date, productId, brandId)
 
-    🧠 GetPriceUseCase->>🧠 GetPriceUseCase: select by highest priority
-    🧠 GetPriceUseCase-->>🌐 PriceController: Price (domain model)
-    🌐 PriceController->>📨 PriceRequestDTO: mapToResponse()
-    📨 PriceRequestDTO-->>🌐 PriceController: API response DTO
-    🌐 PriceController-->>👤 Client: 200 OK + JSON (Price)
+    🧠 GetApplicablePriceUseCase->>🔌 PriceRepositoryPort: findByDateAndProductAndBrand(date, productId, brandId)
+    🔌 PriceRepositoryPort->>🧱 JpaPriceRepositoryAdapter: findPrices(date, productId, brandId)
+    🧱 JpaPriceRepositoryAdapter->>🗄️ SpringDataJPARepository: execute query by date range
+    🗄️ SpringDataJPARepository-->>🧱 JpaPriceRepositoryAdapter: List<PriceEntity>
+    🧱 JpaPriceRepositoryAdapter->>🔁 PriceEntityMapper: map to domain model
+    🔁 PriceEntityMapper-->>🧱 JpaPriceRepositoryAdapter: List<Price>
+    🧱 JpaPriceRepositoryAdapter-->>🔌 PriceRepositoryPort: List<Price>
+    🔌 PriceRepositoryPort-->>🧠 GetApplicablePriceUseCase: List<Price>
+
+    🧠 GetApplicablePriceUseCase->>🧠 GetApplicablePriceUseCase: select price with highest priority
+    🧠 GetApplicablePriceUseCase-->>🧩 PriceQueryFacade: Price
+    🧩 PriceQueryFacade-->>🌐 RestPriceController: Price
+    🌐 RestPriceController->>🔁 PriceEntityMapper: map to response DTO
+    🔁 PriceEntityMapper-->>🌐 RestPriceController: PriceResponseDTO
+    🌐 RestPriceController-->>👤 Client: 200 OK + JSON (PriceResponseDTO)
+
 ```
 
 ## 🚀 Flujo de CI/CD <a id="diagrama-cicd"></a>
