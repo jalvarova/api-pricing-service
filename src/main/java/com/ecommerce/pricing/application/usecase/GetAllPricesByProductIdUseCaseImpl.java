@@ -1,22 +1,22 @@
 package com.ecommerce.pricing.application.usecase;
 
 import com.ecommerce.pricing.domain.model.Price;
-import com.ecommerce.pricing.domain.ports.in.GetPriceForIdentifierUseCase;
+import com.ecommerce.pricing.domain.ports.in.GetAllPricesByProductIdUseCase;
 import com.ecommerce.pricing.domain.ports.out.PriceRepositoryPort;
 import com.ecommerce.pricing.infrastructure.config.TimedLog;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @AllArgsConstructor
 @Service
-public class GetPriceForIdentifierUseCaseImpl implements GetPriceForIdentifierUseCase {
+public class GetAllPricesByProductIdUseCaseImpl implements GetAllPricesByProductIdUseCase {
 
   private final PriceRepositoryPort priceRepositoryPort;
 
   @TimedLog
   @Override
-  public Mono<Price> getPriceForIdentifier(Long id) {
-    return priceRepositoryPort.getPriceById(id);
+  public Flux<Price> getAllPriceByProduct(Long productId) {
+    return priceRepositoryPort.findAllPricesByProductId(productId);
   }
 }

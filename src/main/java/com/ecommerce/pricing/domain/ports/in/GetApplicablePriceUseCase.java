@@ -4,7 +4,7 @@ import com.ecommerce.pricing.domain.model.Price;
 import java.time.LocalDateTime;
 import reactor.core.publisher.Mono;
 
-public interface GetPriceUseCase {
+public interface GetApplicablePriceUseCase {
 
   /**
    * Obetner el precio de un producto por determinada fecha y validar su prioridad.

@@ -13,10 +13,10 @@ public class VerifyDatabaseComponent {
   @Bean
   public CommandLineRunner verifyDatabase(PriceRepositoryAdapter port) {
     return args -> {
-      long count = port.selectCount().block();
+      long count = port.countPrices().block();
       log.info(">>> PRICES table has {} rows.", count);
       port
-          .getAllPricesByProductId(35455L)
+          .findAllPricesByProductId(35455L)
           .toIterable()
           .forEach(
               p -> System.out.println("Price loaded: " + p.getProductId() + " -> " + p.getPrice()));

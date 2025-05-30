@@ -47,7 +47,7 @@ class PriceRepositoryAdapterTest {
     when(priceRepository.findPrecesByProductId(productId))
         .thenReturn(mapper.getListPricesByProduct());
 
-    Flux<Price> result = adapter.getAllPricesByProductId(productId);
+    Flux<Price> result = adapter.findAllPricesByProductId(productId);
 
     StepVerifier.create(result)
         .expectNextCount(4).verifyComplete();
@@ -59,10 +59,10 @@ class PriceRepositoryAdapterTest {
   @DisplayName("Get the price of the product by id")
   void getPriceById() {
 
-    when(priceRepository.findById(1L))
-        .thenReturn(Optional.of(mapper.getPriceEntity1()));
+    when(priceRepository.findPriceById(1L))
+        .thenReturn(mapper.getPriceEntity1());
 
-    Mono<Price> result = adapter.getPriceById(1L);
+    Mono<Price> result = adapter.findPriceById(1L);
 
     StepVerifier.create(result)
         .assertNext(price -> {
@@ -76,7 +76,7 @@ class PriceRepositoryAdapterTest {
         })
         .verifyComplete();
 
-    verify(priceRepository).findById(1L);
+    verify(priceRepository).findPriceById(1L);
   }
 
   @Test
@@ -86,7 +86,7 @@ class PriceRepositoryAdapterTest {
     when(priceRepository.findApplicablePrice(productId, 1, date))
         .thenReturn(mapper.getPriceEntity1());
 
-    Flux<Price> result = adapter.getPricesByDate(productId, 1, date);
+    Mono<Price> result = adapter.findApplicablePrices(productId, 1, date);
 
     StepVerifier.create(result)
         .assertNext(price -> {

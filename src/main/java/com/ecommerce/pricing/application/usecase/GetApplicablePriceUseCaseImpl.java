@@ -1,7 +1,7 @@
 package com.ecommerce.pricing.application.usecase;
 
 import com.ecommerce.pricing.domain.model.Price;
-import com.ecommerce.pricing.domain.ports.in.GetPriceUseCase;
+import com.ecommerce.pricing.domain.ports.in.GetApplicablePriceUseCase;
 import com.ecommerce.pricing.domain.ports.out.PriceRepositoryPort;
 import com.ecommerce.pricing.infrastructure.config.TimedLog;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor
-public class GetPriceUseCaseImpl implements GetPriceUseCase {
+public class GetApplicablePriceUseCaseImpl implements GetApplicablePriceUseCase {
 
   private final PriceRepositoryPort priceRepositoryPort;
 
@@ -19,9 +19,6 @@ public class GetPriceUseCaseImpl implements GetPriceUseCase {
   @Override
   public Mono<Price> getPriceProduct(Long productId, Integer brandId,
       LocalDateTime applicationDate) {
-    return priceRepositoryPort.getPricesByDate(productId, brandId, applicationDate)
-        .sort((p1, p2) -> Integer.compare(p2.getPriority(),
-            p1.getPriority()))
-        .next();
+    return priceRepositoryPort.findApplicablePrices(productId, brandId, applicationDate);
   }
 }
