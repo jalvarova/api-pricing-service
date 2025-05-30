@@ -195,6 +195,6 @@ class RestPriceControllerApiTest {
           assertThat(responseBody).contains("\"price\":35.5");
           assertThat(responseBody).contains("\"productId\":35455");
           assertThat(responseBody).contains("\"brandId\":1");
-        });;
+        });
   }
 }
