@@ -101,7 +101,8 @@ jacocoTestReport {
                         '**/config/**',
                         '**/model/**',
                         '**/mapper/**',
-                        '**/entity/**'
+                        '**/entity/**',
+                        '**/dto/**'
                 ])
             })
     )
@@ -146,7 +147,8 @@ sonarqube {
                     **/ApiUtil.class,
                     **/model/**,
                     **/entity/**,
-                    **/mapper/**
+                    **/mapper/**,
+                    **/dto/**
                   
     """
     }
