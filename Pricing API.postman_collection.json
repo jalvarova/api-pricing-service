@@ -53,7 +53,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL}}/api/v1/pricing/prices/{{PRODUCT_ID}}/product",
+					"raw": "{{URL}}/api/v1/pricing/products/{{PRODUCT_ID}}/prices",
 					"host": [
 						"{{URL}}"
 					],
@@ -61,9 +61,9 @@
 						"api",
 						"v1",
 						"pricing",
-						"prices",
+						"products",
 						"{{PRODUCT_ID}}",
-						"product"
+						"prices"
 					]
 				}
 			},
@@ -91,9 +91,12 @@
 			"response": []
 		},
 		{
-			"name": "SEARCH",
+			"name": "GET_APPLICABLE_PRICE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -105,7 +108,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/api/v1/pricing/prices/search",
+					"raw": "{{URL}}/api/v1/pricing/prices?applicationDate=2020-06-14T16:00:00Z&productId=35456&brandId=1",
 					"host": [
 						"{{URL}}"
 					],
@@ -113,8 +116,21 @@
 						"api",
 						"v1",
 						"pricing",
-						"prices",
-						"search"
+						"prices"
+					],
+					"query": [
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T16:00:00Z"
+						},
+						{
+							"key": "productId",
+							"value": "35456"
+						},
+						{
+							"key": "brandId",
+							"value": "1"
+						}
 					]
 				}
 			},
