@@ -3,8 +3,12 @@ package com.ecommerce.pricing.infrastructure.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.ecommerce.pricing.infrastructure.adapter.in.dto.PriceResponse;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -18,161 +22,54 @@ class RestPriceControllerApiTest {
   @Autowired
   private WebTestClient webTestClient;
 
-  @Test
-  @DisplayName("Test 1: petición a las 10:00 del día 14 del producto 35455 para la brand 1 (ZARA)")
-  void apiPostFinalPrice1() {
+  static Stream<Arguments> applicablePriceScenarios() {
+    return Stream.of(
+        Arguments.of(35455, 1, "2020-06-14T10:00:00Z", 35.50f),
+        Arguments.of(35455, 1, "2020-06-14T16:00:00Z", 25.45f),
+        Arguments.of(35455, 1, "2020-06-14T21:00:00Z", 35.50f),
+        Arguments.of(35455, 1, "2020-06-15T10:00:00Z", 30.50f),
+        Arguments.of(35455, 1, "2020-06-16T21:00:00Z", 38.95f),
+        Arguments.of(35456, 1, "2020-06-14T10:00:00Z", 47.50f),
+        Arguments.of(35456, 1, "2020-06-15T16:00:00Z", 45.95f)
+    );
+  }
 
+  @ParameterizedTest(name = "GET /prices?productId={0}&brandId={1}&applicationDate={2} => price={3}")
+  @MethodSource("applicablePriceScenarios")
+  @DisplayName("GET applicable price for various scenarios")
+  void getApplicablePriceParameterized(
+      Integer productId,
+      Integer brandId,
+      String applicationDate,
+      Float expectedPrice
+  ) {
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder
             .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35455)
-            .queryParam("applicationDate", "2020-06-14T10:00:00Z")
-            .build()
-        )
+            .queryParam("productId", productId)
+            .queryParam("brandId", brandId)
+            .queryParam("applicationDate", applicationDate)
+            .build())
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(35.50)
-        .jsonPath("$.productId").isEqualTo(35455)
-        .jsonPath("$.brandId").isEqualTo(1);
-  }
-
-  @Test
-  @DisplayName("Test 2: petición a las 16:00 del día 14 del producto 35455 para la brand 1 (ZARA)")
-  void apiPostFinalPrice2() {
-
-    webTestClient.get()
-        .uri(uriBuilder -> uriBuilder
-            .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35455)
-            .queryParam("applicationDate", "2020-06-14T16:00:00Z")
-            .build()
-        )
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(25.45)
-        .jsonPath("$.productId").isEqualTo(35455)
-        .jsonPath("$.brandId").isEqualTo(1);
-  }
-
-  @Test
-  @DisplayName("Test 3: petición a las 21:00 del día 14 del producto 35455 para la brand 1 (ZARA)")
-  void apiPostFinalPrice3() {
-
-    webTestClient.get()
-        .uri(uriBuilder -> uriBuilder
-            .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35455)
-            .queryParam("applicationDate", "2020-06-14T21:00:00Z")
-            .build()
-        )
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(35.50)
-        .jsonPath("$.productId").isEqualTo(35455)
-        .jsonPath("$.brandId").isEqualTo(1);
-  }
-
-  @Test
-  @DisplayName("Test 4: petición a las 10:00 del día 15 del producto 35455 para la brand 1 (ZARA)")
-  void apiPostFinalPrice4() {
-
-    webTestClient.get()
-        .uri(uriBuilder -> uriBuilder
-            .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35455)
-            .queryParam("applicationDate", "2020-06-15T10:00:00Z")
-            .build()
-        )
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(30.50)
-        .jsonPath("$.productId").isEqualTo(35455)
-        .jsonPath("$.brandId").isEqualTo(1);
-  }
-
-  @Test
-  @DisplayName("Test 5: petición a las 21:00 del día 16 del producto 35455 para la brand 1 (ZARA)")
-  void apiPostFinalPrice5() {
-
-    webTestClient.get()
-        .uri(uriBuilder -> uriBuilder
-            .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35455)
-            .queryParam("applicationDate", "2020-06-16T21:00:00Z")
-            .build()
-        )
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(38.95)
-        .jsonPath("$.productId").isEqualTo(35455)
-        .jsonPath("$.brandId").isEqualTo(1);
-  }
-
-  @Test
-  @DisplayName("Test 6: petición a las 10:00 del día 14 del producto 35456 para la brand 1 (ZARA)")
-  void apiPostFinalPrice6() {
-
-    webTestClient.get()
-        .uri(uriBuilder -> uriBuilder
-            .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35456)
-            .queryParam("applicationDate", "2020-06-14T10:00:00Z")
-            .build()
-        )
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(47.5)
-        .jsonPath("$.productId").isEqualTo(35456)
-        .jsonPath("$.brandId").isEqualTo(1);
-  }
-
-  @Test
-  @DisplayName("Test 7: petición a las 16:00 del día 15 del producto 35456 para la brand 1 (ZARA)")
-  void apiPostFinalPrice7() {
-
-    webTestClient.get()
-        .uri(uriBuilder -> uriBuilder
-            .path("/prices")
-            .queryParam("brandId", 1)
-            .queryParam("productId", 35456)
-            .queryParam("applicationDate", "2020-06-15T16:00:00Z")
-            .build()
-        )
-        .accept(MediaType.APPLICATION_JSON)
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.price").isEqualTo(45.95)
-        .jsonPath("$.productId").isEqualTo(35456)
-        .jsonPath("$.brandId").isEqualTo(1);
+        .expectBody(PriceResponse.class)
+        .value(resp -> {
+          assertThat(resp.getProductId()).isEqualTo(productId);
+          assertThat(resp.getBrandId()).isEqualTo(brandId);
+          assertThat(resp.getPrice()).isEqualTo(expectedPrice);
+        });
   }
 
 
   @Test
-  @DisplayName("Debe devolver lista de precios para el producto 35455 con tamaño esperado")
+  @DisplayName("GET /products/{productId}/prices returns full price list")
   void shouldReturnAllPricesForProduct() {
 
     webTestClient.get()
         .uri("/products/{productId}/prices",35455)
+        .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
         .expectBodyList(PriceResponse.class)
@@ -180,21 +77,20 @@ class RestPriceControllerApiTest {
   }
 
   @Test
-  @DisplayName("Debe devolver precio por ID cuando se consulta ID=1")
+  @DisplayName("GET /prices/{id} returns the correct price entry")
   void shouldReturnPriceById1() {
 
     webTestClient.get()
         .uri("/prices/{id}",1)
+        .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
-        .expectBody()
-        .consumeWith(response -> {
-          String responseBody = new String(response.getResponseBody());
-
-          assertThat(responseBody).contains("\"price\":35.5");
-          assertThat(responseBody).contains("\"productId\":35455");
-          assertThat(responseBody).contains("\"brandId\":1");
+        .expectBody(PriceResponse.class)
+        .value(resp -> {
+          assertThat(resp.getProductId()).isEqualTo(35455);
+          assertThat(resp.getBrandId()).isEqualTo(1);
+          assertThat(resp.getPrice()).isEqualTo(35.50f);
         });
   }
 }

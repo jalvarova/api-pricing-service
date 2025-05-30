@@ -30,7 +30,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
           description: Identificador del producto
         - in: query
           name: applicationDate

@@ -15,6 +15,6 @@ public interface GetAllPricesByProductIdUseCase {
    * @param productId el identificador único del producto
    * @return un flujo reactivo con los precios correspondientes al producto
    */
-  Flux<Price> execute(Long productId);
+  Flux<Price> execute(Integer productId);
 
 }

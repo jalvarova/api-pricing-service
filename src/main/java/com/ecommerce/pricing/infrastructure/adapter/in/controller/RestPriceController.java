@@ -35,7 +35,7 @@ public class RestPriceController implements PricingControllerApi {
   @Override
   public Mono<ResponseEntity<Flux<PriceResponse>>> getAllPricesByProductId(Integer productId,
       ServerWebExchange exchange) {
-    return Mono.just(adapter.getAllPriceByProduct(Long.valueOf(productId)))
+    return Mono.just(adapter.getAllPriceByProduct(productId))
         .map(ResponseEntity::ok)
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
@@ -43,7 +43,7 @@ public class RestPriceController implements PricingControllerApi {
   @Override
   public Mono<ResponseEntity<PriceResponse>> getApplicablePrice(
       @Valid @RequestParam(value = "brandId") Integer brandId,
-      @Valid @RequestParam(value = "productId") Long productId,
+      @Valid @RequestParam(value = "productId") Integer productId,
       @Valid @RequestParam(value = "applicationDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime applicationDate,
       @Parameter(hidden = true) final ServerWebExchange exchange) {
     return adapter.getApplicablePrice(productId, brandId, applicationDate.toLocalDateTime())

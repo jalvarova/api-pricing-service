@@ -19,12 +19,12 @@ public interface PriceRepository extends CrudRepository<PriceEntity, Long> {
              LIMIT 1
           """)
   PriceEntity findApplicablePrice(
-      @Param("productId") Long productId,
+      @Param("productId") Integer productId,
       @Param("brandId") Integer brandId,
       @Param("applicationDate") LocalDateTime applicationDate);
 
   @Query("SELECT p FROM PriceEntity p WHERE p.productId = :productId ORDER BY p.startDate DESC")
-  List<PriceEntity> findPrecesByProductId(@Param("productId") Long productId);
+  List<PriceEntity> findPrecesByProductId(@Param("productId") Integer productId);
 
   @Query("SELECT p FROM PriceEntity p WHERE p.id = :id")
   PriceEntity findPriceById(@Param("id") Long id);

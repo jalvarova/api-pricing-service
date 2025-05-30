@@ -16,7 +16,7 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
   private PriceRepository repository;
 
   @Override
-  public Mono<Price> findApplicablePrices(Long productId, Integer brandId, LocalDateTime applicationDate) {
+  public Mono<Price> findApplicablePrices(Integer productId, Integer brandId, LocalDateTime applicationDate) {
     return Mono.justOrEmpty(repository.findApplicablePrice(productId, brandId, applicationDate))
         .map(PriceEntityMapper.toDomain);
 
@@ -34,7 +34,7 @@ public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
   }
 
   @Override
-  public Flux<Price> findAllPricesByProductId(Long productId) {
+  public Flux<Price> findAllPricesByProductId(Integer productId) {
     return Flux
         .fromIterable(repository.findPrecesByProductId(productId))
         .map(PriceEntityMapper.toDomain);

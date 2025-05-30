@@ -16,7 +16,7 @@ public class GetAllPricesByProductIdUseCaseImpl implements GetAllPricesByProduct
 
   @TimedLog
   @Override
-  public Flux<Price> execute(Long productId) {
+  public Flux<Price> execute(Integer productId) {
     return priceRepositoryPort.findAllPricesByProductId(productId);
   }
 }

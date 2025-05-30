@@ -25,7 +25,7 @@ public class BuilderObjectMocks {
         .startDate(LocalDateTime.of(2020, 6, 14, 0, 0, 0))
         .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
         .priority(0)
-        .productId(35455L)
+        .productId(35455)
         .priceList(1)
         .curr(CURRENCY_CODE)
         .build();
@@ -38,7 +38,7 @@ public class BuilderObjectMocks {
         .startDate(LocalDateTime.of(2020, 6, 14, 15, 0, 0))
         .endDate(LocalDateTime.of(2020, 6, 14, 18, 30, 0))
         .priority(0)
-        .productId(35455L)
+        .productId(35455)
         .priceList(1)
         .curr(CURRENCY_CODE)
         .build();
@@ -51,7 +51,7 @@ public class BuilderObjectMocks {
         .startDate(LocalDateTime.of(2020, 6, 15, 0, 0, 0))
         .endDate(LocalDateTime.of(2020, 6, 15, 11, 0, 0))
         .priority(0)
-        .productId(35455L)
+        .productId(35455)
         .priceList(1)
         .curr(CURRENCY_CODE)
         .build();
@@ -64,7 +64,7 @@ public class BuilderObjectMocks {
         .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
         .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
         .priority(0)
-        .productId(35455L)
+        .productId(35455)
         .priceList(1)
         .curr(CURRENCY_CODE)
         .build();
@@ -77,7 +77,7 @@ public class BuilderObjectMocks {
         .startDate(LocalDateTime.of(2020, 6, 15, 16, 0, 0))
         .endDate(LocalDateTime.of(2020, 12, 31, 23, 59, 59))
         .priority(0)
-        .productId(35456L)
+        .productId(35456)
         .priceList(1)
         .curr(CURRENCY_CODE)
         .build();
@@ -100,6 +100,10 @@ public class BuilderObjectMocks {
     return Arrays.asList(buildDomain(priceEntity1), buildDomain(priceEntity2));
   }
 
+  public List<Price> getListDomainPricesByProduct() {
+    return Arrays.asList(buildDomain(priceEntity1), buildDomain(priceEntity2),
+        buildDomain(priceEntity3), buildDomain(priceEntity4));
+  }
   public Price buildDomain(PriceEntity entity) {
     return Price.builder()
         .price(entity.getPrice())
