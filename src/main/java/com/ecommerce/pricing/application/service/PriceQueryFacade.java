@@ -7,9 +7,9 @@ import reactor.core.publisher.Mono;
 
 public interface PriceQueryFacade {
 
-  Flux<PriceResponse> getAllPriceByProduct(Long productId);
+  Flux<PriceResponse> getAllPriceByProduct(Integer productId);
 
   Mono<PriceResponse> getPriceForIdentifier(Long id);
 
-  Mono<PriceResponse> getApplicablePrice(Long productId, Integer brandId, LocalDateTime date);
+  Mono<PriceResponse> getApplicablePrice(Integer productId, Integer brandId, LocalDateTime date);
 }

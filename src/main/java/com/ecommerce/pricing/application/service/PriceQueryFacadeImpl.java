@@ -20,7 +20,7 @@ public class PriceQueryFacadeImpl implements PriceQueryFacade {
   private final GetApplicablePriceUseCase getApplicablePriceUseCase;
 
   @Override
-  public Flux<PriceResponse> getAllPriceByProduct(Long productId) {
+  public Flux<PriceResponse> getAllPriceByProduct(Integer productId) {
     return getAllPricesByProductIdUseCase.execute(productId).map(PriceMapper.toApi);
   }
 
@@ -30,7 +30,7 @@ public class PriceQueryFacadeImpl implements PriceQueryFacade {
   }
 
   @Override
-  public Mono<PriceResponse> getApplicablePrice(Long productId, Integer brandId, LocalDateTime date) {
+  public Mono<PriceResponse> getApplicablePrice(Integer productId, Integer brandId, LocalDateTime date) {
     return getApplicablePriceUseCase.execute(productId, brandId, date).map(PriceMapper.toApi);
   }
 }

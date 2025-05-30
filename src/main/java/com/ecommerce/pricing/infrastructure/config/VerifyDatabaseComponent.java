@@ -16,7 +16,7 @@ public class VerifyDatabaseComponent {
       long count = port.countPrices().block();
       log.info(">>> PRICES table has {} rows.", count);
       port
-          .findAllPricesByProductId(35455L)
+          .findAllPricesByProductId(35455)
           .toIterable()
           .forEach(
               p -> System.out.println("Price loaded: " + p.getProductId() + " -> " + p.getPrice()));

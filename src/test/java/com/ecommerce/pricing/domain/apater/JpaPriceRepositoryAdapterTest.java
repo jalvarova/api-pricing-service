@@ -5,11 +5,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.ecommerce.pricing.domain.model.Price;
-import com.ecommerce.pricing.infrastructure.adapter.out.repository.PriceRepository;
 import com.ecommerce.pricing.infrastructure.adapter.out.repository.JpaPriceRepositoryAdapter;
+import com.ecommerce.pricing.infrastructure.adapter.out.repository.PriceRepository;
 import com.ecommerce.pricing.util.BuilderObjectMocks;
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,28 +29,24 @@ class JpaPriceRepositoryAdapterTest {
   @InjectMocks
   private JpaPriceRepositoryAdapter adapter;
 
-  private Long productId;
-
+  private static final Integer PRODUCT_ID = 35455;
+  private static final Integer BRAND = 1;
   private final BuilderObjectMocks mapper = new BuilderObjectMocks();
 
-  @BeforeEach
-  void setUp() {
-    productId = 35455L;
-  }
 
   @Test
   @DisplayName("get all the prices of a product")
   void getAllPricesByProductId() {
 
-    when(priceRepository.findPrecesByProductId(productId))
+    when(priceRepository.findPrecesByProductId(PRODUCT_ID))
         .thenReturn(mapper.getListPricesByProduct());
 
-    Flux<Price> result = adapter.findAllPricesByProductId(productId);
+    Flux<Price> result = adapter.findAllPricesByProductId(PRODUCT_ID);
 
     StepVerifier.create(result)
         .expectNextCount(4).verifyComplete();
 
-    verify(priceRepository).findPrecesByProductId(productId);
+    verify(priceRepository).findPrecesByProductId(PRODUCT_ID);
   }
 
   @Test
@@ -66,7 +61,7 @@ class JpaPriceRepositoryAdapterTest {
     StepVerifier.create(result)
         .assertNext(price -> {
           assertThat(price).isNotNull();
-          assertThat(price.getProductId().equals(productId));
+          assertThat(price.getProductId().equals(PRODUCT_ID));
           assertThat(price.getPriority()).isZero();
           assertThat(price.getPrice()).isEqualByComparingTo("35.50");
           assertThat(price.getCurr()).isEqualTo(BuilderObjectMocks.CURRENCY_CODE);
@@ -82,15 +77,15 @@ class JpaPriceRepositoryAdapterTest {
   @DisplayName("Get the price for a date range by product and brand")
   void getByProductBrandAndDate() {
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
-    when(priceRepository.findApplicablePrice(productId, 1, date))
+    when(priceRepository.findApplicablePrice(PRODUCT_ID, 1, date))
         .thenReturn(mapper.getPriceEntity1());
 
-    Mono<Price> result = adapter.findApplicablePrices(productId, 1, date);
+    Mono<Price> result = adapter.findApplicablePrices(PRODUCT_ID, 1, date);
 
     StepVerifier.create(result)
         .assertNext(price -> {
           assertThat(price).isNotNull();
-          assertThat(price.getProductId().equals(productId));
+          assertThat(price.getProductId().equals(PRODUCT_ID));
           assertThat(price.getPriority()).isZero();
           assertThat(price.getPrice()).isEqualByComparingTo("35.50");
           assertThat(price.getCurr()).isEqualTo(BuilderObjectMocks.CURRENCY_CODE);
@@ -99,7 +94,7 @@ class JpaPriceRepositoryAdapterTest {
         })
         .verifyComplete();
 
-    verify(priceRepository).findApplicablePrice(productId, 1, date);
+    verify(priceRepository).findApplicablePrice(PRODUCT_ID, 1, date);
   }
 
 }

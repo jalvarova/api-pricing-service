@@ -29,7 +29,7 @@ class GetApplicablePriceUseCaseTest {
   @InjectMocks
   private GetApplicablePriceUseCaseImpl getPriceUseCase;
 
-  private static final Long PRODUCT_ID = 35455L;
+  private static final Integer PRODUCT_ID = 35455;
   private static final Integer BRAND = 1;
   private final BuilderObjectMocks mapper = new BuilderObjectMocks();
 

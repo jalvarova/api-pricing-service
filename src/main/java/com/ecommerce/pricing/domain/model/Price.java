@@ -22,7 +22,7 @@ public class Price {
 
   private Integer priceList;
 
-  private Long productId;
+  private Integer productId;
 
   private Integer priority;
 

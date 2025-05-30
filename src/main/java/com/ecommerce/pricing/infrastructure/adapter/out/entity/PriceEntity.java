@@ -38,7 +38,7 @@ public class PriceEntity {
   private Integer priceList;
 
   @Column(name = "product_id", nullable = false)
-  private Long productId;
+  private Integer productId;
 
   @Column(name = "priority", nullable = false)
   private Integer priority;

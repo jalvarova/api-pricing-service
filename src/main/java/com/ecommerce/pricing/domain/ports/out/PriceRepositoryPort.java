@@ -19,7 +19,7 @@ public interface PriceRepositoryPort {
    * @param applicationDate the date for which the price is requested
    * @return a Mono of applicable prices, ordered by priority
    */
-  Mono<Price> findApplicablePrices(Long productId, Integer brandId, LocalDateTime applicationDate);
+  Mono<Price> findApplicablePrices(Integer productId, Integer brandId, LocalDateTime applicationDate);
 
   /**
    * Retrieve a price by its unique identifier.
@@ -42,5 +42,5 @@ public interface PriceRepositoryPort {
    * @param productId the ID of the product
    * @return a Flux containing all price entries for the specified product
    */
-  Flux<Price> findAllPricesByProductId(Long productId);
+  Flux<Price> findAllPricesByProductId(Integer productId);
 }
