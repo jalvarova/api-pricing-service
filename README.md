@@ -489,3 +489,11 @@ flowchart LR
 ![alt text](img/health.png)
 
 * Se tiene una [collection postman](Pricing%20API.postman_collection.json), para poder validar los endpoint de la API se debe de importar la [collection](Pricing%20API.postman_collection.json) y los [env](ENV.postman_environment.json).
+
+### New features
+
+* Integration with hashicorp vault
+* Integration with redis cache
+* Web Client implementation
+* Patron Circuit Breaker
+* Integration topis Kafka
