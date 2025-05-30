@@ -12,17 +12,33 @@ servers:
 
 paths:
   /prices:
-    post:
+    get:
       tags:
         - PricingController
       operationId: getApplicablePrice
       summary: Consultar precio aplicable por producto, marca y fecha
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PriceRequest'
+      parameters:
+        - in: query
+          name: brandId
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: Identificador de la cadena (brand)
+        - in: query
+          name: productId
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: Identificador del producto
+        - in: query
+          name: applicationDate
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: Fecha de aplicación en formato ISO-8601
       responses:
         '200':
           description: Precio encontrado
@@ -82,31 +98,6 @@ paths:
           description: Precio no encontrado
 components:
   schemas:
-    PriceRequest:
-      type: object
-      required:
-        - applicationDate
-        - productId
-        - brandId
-      properties:
-        applicationDate:
-          type: string
-          format: date-time
-          required: true
-          description: Fecha y hora de aplicación
-          example: "2020-06-14T16:00:00.000Z"
-          default: "2020-06-14T16:00:00.000Z"
-        productId:
-          type: integer
-          example: 35456
-          default: 35456
-          required: true
-          description: Identificador del producto
-        brandId:
-          type: integer
-          description: Identificador de la cadena (marca)
-          example: 1
-          default: 1
     PriceResponse:
       type: object
       properties:
