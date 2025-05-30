@@ -1,10 +1,10 @@
 package com.ecommerce.pricing.application.service;
 
-import com.ecommerce.pricing.domain.mappers.PriceMapper;
-import com.ecommerce.pricing.domain.model.PriceResponse;
+import com.ecommerce.pricing.infrastructure.adapter.in.mapper.PriceMapper;
 import com.ecommerce.pricing.domain.ports.in.GetAllPricesByProductIdUseCase;
 import com.ecommerce.pricing.domain.ports.in.GetPriceByIdUseCase;
 import com.ecommerce.pricing.domain.ports.in.GetApplicablePriceUseCase;
+import com.ecommerce.pricing.infrastructure.adapter.in.dto.PriceResponse;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @Service
-public class PriceServiceAdapterImpl implements PriceServiceAdapter {
+public class PriceQueryFacadeImpl implements PriceQueryFacade {
 
   private final GetAllPricesByProductIdUseCase getAllPricesByProductIdUseCase;
   private final GetPriceByIdUseCase getPriceByIdUseCase;
@@ -21,16 +21,16 @@ public class PriceServiceAdapterImpl implements PriceServiceAdapter {
 
   @Override
   public Flux<PriceResponse> getAllPriceByProduct(Long productId) {
-    return getAllPricesByProductIdUseCase.getPricesByProductId(productId).map(PriceMapper.toApi);
+    return getAllPricesByProductIdUseCase.execute(productId).map(PriceMapper.toApi);
   }
 
   @Override
   public Mono<PriceResponse> getPriceForIdentifier(Long id) {
-    return getPriceByIdUseCase.getPriceForId(id).map(PriceMapper.toApi);
+    return getPriceByIdUseCase.execute(id).map(PriceMapper.toApi);
   }
 
   @Override
   public Mono<PriceResponse> getApplicablePrice(Long productId, Integer brandId, LocalDateTime date) {
-    return getApplicablePriceUseCase.getApplicablePrice(productId, brandId, date).map(PriceMapper.toApi);
+    return getApplicablePriceUseCase.execute(productId, brandId, date).map(PriceMapper.toApi);
   }
 }

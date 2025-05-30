@@ -1,8 +1,8 @@
-package com.ecommerce.pricing.infrastructure.db.repository;
+package com.ecommerce.pricing.infrastructure.adapter.out.repository;
 
-import com.ecommerce.pricing.domain.mappers.PriceMapper;
 import com.ecommerce.pricing.domain.model.Price;
 import com.ecommerce.pricing.domain.ports.out.PriceRepositoryPort;
+import com.ecommerce.pricing.infrastructure.adapter.out.mapper.PriceEntityMapper;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,20 +11,21 @@ import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @Component
-public class PriceRepositoryAdapter implements PriceRepositoryPort {
+public class JpaPriceRepositoryAdapter implements PriceRepositoryPort {
 
   private PriceRepository repository;
 
   @Override
   public Mono<Price> findApplicablePrices(Long productId, Integer brandId, LocalDateTime applicationDate) {
-    return Mono.just(repository.findApplicablePrice(productId, brandId, applicationDate))
-        .map(PriceMapper.toDomain);
+    return Mono.justOrEmpty(repository.findApplicablePrice(productId, brandId, applicationDate))
+        .map(PriceEntityMapper.toDomain);
+
   }
 
   @Override
   public Mono<Price> findPriceById(Long id) {
-    return Mono.just(repository.findPriceById(id))
-        .map(PriceMapper.toDomain);
+    return Mono.justOrEmpty(repository.findPriceById(id))
+        .map(PriceEntityMapper.toDomain);
   }
 
   @Override
@@ -34,6 +35,8 @@ public class PriceRepositoryAdapter implements PriceRepositoryPort {
 
   @Override
   public Flux<Price> findAllPricesByProductId(Long productId) {
-    return Flux.fromIterable(repository.findPrecesByProductId(productId)).map(PriceMapper.toDomain);
+    return Flux
+        .fromIterable(repository.findPrecesByProductId(productId))
+        .map(PriceEntityMapper.toDomain);
   }
 }

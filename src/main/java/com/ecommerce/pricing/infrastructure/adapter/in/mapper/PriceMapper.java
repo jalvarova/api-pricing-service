@@ -1,8 +1,7 @@
-package com.ecommerce.pricing.domain.mappers;
+package com.ecommerce.pricing.infrastructure.adapter.in.mapper;
 
 import com.ecommerce.pricing.domain.model.Price;
-import com.ecommerce.pricing.domain.model.PriceResponse;
-import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
+import com.ecommerce.pricing.infrastructure.adapter.in.dto.PriceResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.function.Function;
@@ -11,19 +10,6 @@ import java.util.function.Function;
 public interface PriceMapper {
 
   void test();
-
-  Function<PriceEntity, Price> toDomain =
-      (PriceEntity entity) ->
-          Price.builder()
-              .price(entity.getPrice())
-              .priceList(entity.getPriceList())
-              .brandId(entity.getBrandId())
-              .productId(entity.getProductId())
-              .startDate(entity.getStartDate())
-              .priority(entity.getPriority())
-              .endDate(entity.getEndDate())
-              .curr(entity.getCurr())
-              .build();
 
   Function<Price, PriceResponse> toApi =
       (Price domain) -> {

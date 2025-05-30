@@ -1,7 +1,7 @@
-package com.ecommerce.pricing.infrastructure.controller.api;
+package com.ecommerce.pricing.infrastructure.adapter.in.controller;
 
-import com.ecommerce.pricing.application.service.PriceServiceAdapter;
-import com.ecommerce.pricing.domain.model.PriceResponse;
+import com.ecommerce.pricing.application.service.PriceQueryFacade;
+import com.ecommerce.pricing.infrastructure.adapter.in.dto.PriceResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import java.time.OffsetDateTime;
@@ -19,9 +19,9 @@ import reactor.core.publisher.Mono;
 @Validated
 @RestController
 @AllArgsConstructor
-public class PriceController implements PricingControllerApi {
+public class RestPriceController implements PricingControllerApi {
 
-  private PriceServiceAdapter adapter;
+  private PriceQueryFacade adapter;
 
   @Override
   public Mono<ResponseEntity<PriceResponse>> getPriceById(Integer id,

@@ -1,6 +1,6 @@
 package com.ecommerce.pricing.infrastructure.config;
 
-import com.ecommerce.pricing.infrastructure.db.repository.PriceRepositoryAdapter;
+import com.ecommerce.pricing.infrastructure.adapter.out.repository.JpaPriceRepositoryAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class VerifyDatabaseComponent {
 
   @Bean
-  public CommandLineRunner verifyDatabase(PriceRepositoryAdapter port) {
+  public CommandLineRunner verifyDatabase(JpaPriceRepositoryAdapter port) {
     return args -> {
       long count = port.countPrices().block();
       log.info(">>> PRICES table has {} rows.", count);

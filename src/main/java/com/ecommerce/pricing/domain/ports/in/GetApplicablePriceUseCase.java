@@ -19,6 +19,6 @@ public interface GetApplicablePriceUseCase {
    * @param applicationDate fecha y hora de aplicación
    * @return Mono que contiene el precio aplicable, o vacío si no se encuentra
    */
-  Mono<Price> getApplicablePrice(Long productId, Integer brandId, LocalDateTime applicationDate);
+  Mono<Price> execute(Long productId, Integer brandId, LocalDateTime applicationDate);
 
 }

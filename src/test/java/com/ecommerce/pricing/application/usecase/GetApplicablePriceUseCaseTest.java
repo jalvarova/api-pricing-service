@@ -39,7 +39,7 @@ class GetApplicablePriceUseCaseTest {
     when(priceRepository.findApplicablePrices(PRODUCT_ID, BRAND, date))
         .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
-    Mono<Price> result = getPriceUseCase.getApplicablePrice(PRODUCT_ID, BRAND, date);
+    Mono<Price> result = getPriceUseCase.execute(PRODUCT_ID, BRAND, date);
 
     StepVerifier.create(result)
         .expectNextCount(1)
@@ -57,7 +57,7 @@ class GetApplicablePriceUseCaseTest {
     when(priceRepository.findApplicablePrices(PRODUCT_ID, BRAND, date))
         .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
-    Mono<Price> result = getPriceUseCase.getApplicablePrice(PRODUCT_ID, BRAND, date);
+    Mono<Price> result = getPriceUseCase.execute(PRODUCT_ID, BRAND, date);
 
     StepVerifier.create(result)
         .expectNextCount(1)
@@ -75,7 +75,7 @@ class GetApplicablePriceUseCaseTest {
     when(priceRepository.findApplicablePrices(PRODUCT_ID, BRAND, date))
         .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
-    Mono<Price> result = getPriceUseCase.getApplicablePrice(PRODUCT_ID, BRAND, date);
+    Mono<Price> result = getPriceUseCase.execute(PRODUCT_ID, BRAND, date);
 
     StepVerifier.create(result)
         .expectNextCount(1)
@@ -93,7 +93,7 @@ class GetApplicablePriceUseCaseTest {
     when(priceRepository.findApplicablePrices(PRODUCT_ID, 1, date))
         .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
-    Mono<Price> result = getPriceUseCase.getApplicablePrice(PRODUCT_ID, 1, date);
+    Mono<Price> result = getPriceUseCase.execute(PRODUCT_ID, 1, date);
 
     StepVerifier.create(result)
         .expectNextCount(1)
@@ -111,7 +111,7 @@ class GetApplicablePriceUseCaseTest {
     when(priceRepository.findApplicablePrices(PRODUCT_ID, 1, date))
         .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
-    Mono<Price> result = getPriceUseCase.getApplicablePrice(PRODUCT_ID, 1, date);
+    Mono<Price> result = getPriceUseCase.execute(PRODUCT_ID, 1, date);
 
     StepVerifier.create(result)
         .expectNextCount(1)

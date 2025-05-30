@@ -2,8 +2,7 @@ package com.ecommerce.pricing.infrastructure.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.ecommerce.pricing.domain.model.PriceResponse;
-import org.assertj.core.api.Assertions;
+import com.ecommerce.pricing.infrastructure.adapter.in.dto.PriceResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class PriceControllerApiTest {
+class RestPriceControllerApiTest {
 
   @Autowired
   private WebTestClient webTestClient;

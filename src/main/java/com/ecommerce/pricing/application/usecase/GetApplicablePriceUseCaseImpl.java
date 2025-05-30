@@ -17,7 +17,7 @@ public class GetApplicablePriceUseCaseImpl implements GetApplicablePriceUseCase 
 
   @TimedLog
   @Override
-  public Mono<Price> getApplicablePrice(Long productId, Integer brandId,
+  public Mono<Price> execute(Long productId, Integer brandId,
       LocalDateTime applicationDate) {
     return priceRepositoryPort.findApplicablePrices(productId, brandId, applicationDate);
   }

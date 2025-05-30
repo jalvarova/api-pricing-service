@@ -100,6 +100,8 @@ jacocoTestReport {
                         '**/ApiUtil.class',
                         '**/config/**',
                         '**/model/**',
+                        '**/mapper/**',
+                        '**/entity/**'
                 ])
             })
     )
@@ -110,8 +112,8 @@ openApiGenerate {
     generatorName.set("spring")
     inputSpec.set("$rootDir/openapi.yaml")
     outputDir.set("$buildDir/generated")
-    apiPackage.set("com.ecommerce.pricing.infrastructure.controller.api")
-    modelPackage.set("com.ecommerce.pricing.domain.model")
+    apiPackage.set("com.ecommerce.pricing.infrastructure.adapter.in.controller")
+    modelPackage.set("com.ecommerce.pricing.infrastructure.adapter.in.dto")
     invokerPackage.set("com.ecommerce.pricing")
     configOptions.set([
             basePackage        : "com.ecommerce.pricing",
@@ -142,8 +144,10 @@ sonarqube {
                     **/config/**,
                     **/*Application**,
                     **/ApiUtil.class,
-                    **/model/**
-                    **/entity/**
+                    **/model/**,
+                    **/entity/**,
+                    **/mapper/**
+                  
     """
     }
 }

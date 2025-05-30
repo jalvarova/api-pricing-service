@@ -1,7 +1,7 @@
 package com.ecommerce.pricing.util;
 
 import com.ecommerce.pricing.domain.model.Price;
-import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
+import com.ecommerce.pricing.infrastructure.adapter.out.entity.PriceEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;

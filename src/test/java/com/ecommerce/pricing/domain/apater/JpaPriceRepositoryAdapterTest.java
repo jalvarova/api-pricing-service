@@ -5,11 +5,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.ecommerce.pricing.domain.model.Price;
-import com.ecommerce.pricing.infrastructure.db.repository.PriceRepository;
-import com.ecommerce.pricing.infrastructure.db.repository.PriceRepositoryAdapter;
+import com.ecommerce.pricing.infrastructure.adapter.out.repository.PriceRepository;
+import com.ecommerce.pricing.infrastructure.adapter.out.repository.JpaPriceRepositoryAdapter;
 import com.ecommerce.pricing.util.BuilderObjectMocks;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,13 +22,13 @@ import reactor.test.StepVerifier;
 
 
 @ExtendWith(MockitoExtension.class)
-class PriceRepositoryAdapterTest {
+class JpaPriceRepositoryAdapterTest {
 
   @Mock
   private PriceRepository priceRepository;
 
   @InjectMocks
-  private PriceRepositoryAdapter adapter;
+  private JpaPriceRepositoryAdapter adapter;
 
   private Long productId;
 

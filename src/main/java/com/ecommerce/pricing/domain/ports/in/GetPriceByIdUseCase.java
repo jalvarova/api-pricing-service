@@ -15,5 +15,5 @@ public interface GetPriceByIdUseCase {
    * @param priceId el identificador único del precio
    * @return un Mono que contiene el precio si existe, o vacío si no se encuentra
    */
-  Mono<Price> getPriceForId(Long priceId);
+  Mono<Price> execute(Long priceId);
 }
