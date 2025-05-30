@@ -30,7 +30,6 @@ class JpaPriceRepositoryAdapterTest {
   private JpaPriceRepositoryAdapter adapter;
 
   private static final Integer PRODUCT_ID = 35455;
-  private static final Integer BRAND = 1;
   private final BuilderObjectMocks mapper = new BuilderObjectMocks();
 
 

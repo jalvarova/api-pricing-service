@@ -21,7 +21,7 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
-public class GetAllPricesByProductIdUseCaseTest {
+class GetAllPricesByProductIdUseCaseTest {
 
   @Mock
   private PriceRepositoryPort priceRepository;
