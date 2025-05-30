@@ -16,7 +16,7 @@ public class GetPriceByIdUseCaseImpl implements GetPriceByIdUseCase {
 
   @TimedLog
   @Override
-  public Mono<Price> getPriceForId(Long priceId) {
+  public Mono<Price> execute(Long priceId) {
     return priceRepositoryPort.findPriceById(priceId);
   }
 }

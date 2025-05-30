@@ -1,6 +1,6 @@
-package com.ecommerce.pricing.infrastructure.db.repository;
+package com.ecommerce.pricing.infrastructure.adapter.out.repository;
 
-import com.ecommerce.pricing.infrastructure.db.entity.PriceEntity;
+import com.ecommerce.pricing.infrastructure.adapter.out.entity.PriceEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;

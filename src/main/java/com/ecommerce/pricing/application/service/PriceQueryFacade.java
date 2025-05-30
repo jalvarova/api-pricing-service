@@ -1,11 +1,11 @@
 package com.ecommerce.pricing.application.service;
 
-import com.ecommerce.pricing.domain.model.PriceResponse;
+import com.ecommerce.pricing.infrastructure.adapter.in.dto.PriceResponse;
 import java.time.LocalDateTime;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface PriceServiceAdapter {
+public interface PriceQueryFacade {
 
   Flux<PriceResponse> getAllPriceByProduct(Long productId);
 
