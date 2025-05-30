@@ -24,7 +24,7 @@ public interface PriceRepository extends CrudRepository<PriceEntity, Long> {
       @Param("applicationDate") LocalDateTime applicationDate);
 
   @Query("SELECT p FROM PriceEntity p WHERE p.productId = :productId ORDER BY p.startDate DESC")
-  List<PriceEntity> findPrecesByProductId(Long productId);
+  List<PriceEntity> findPrecesByProductId(@Param("productId") Long productId);
 
   @Query("SELECT p FROM PriceEntity p WHERE p.id = :id")
   PriceEntity findPriceById(@Param("id") Long id);

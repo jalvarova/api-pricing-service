@@ -14,18 +14,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
-class GetPriceUseCaseTest {
+class GetApplicablePriceUseCaseTest {
 
   @Mock
   private PriceRepositoryPort priceRepository;
 
   @InjectMocks
-  private GetPriceUseCaseImpl getPriceUseCase;
+  private GetApplicablePriceUseCaseImpl getPriceUseCase;
 
   private static final Long PRODUCT_ID = 35455L;
   private static final Integer BRAND = 1;
@@ -37,8 +36,8 @@ class GetPriceUseCaseTest {
 
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
 
-    when(priceRepository.getPricesByDate(PRODUCT_ID, BRAND, date))
-        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
+    when(priceRepository.findApplicablePrices(PRODUCT_ID, BRAND, date))
+        .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, BRAND, date);
 
@@ -46,7 +45,7 @@ class GetPriceUseCaseTest {
         .expectNextCount(1)
         .verifyComplete();
 
-    verify(priceRepository).getPricesByDate(PRODUCT_ID, BRAND, date);
+    verify(priceRepository).findApplicablePrices(PRODUCT_ID, BRAND, date);
   }
 
   @Test
@@ -55,8 +54,8 @@ class GetPriceUseCaseTest {
 
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 16, 0, 0);
 
-    when(priceRepository.getPricesByDate(PRODUCT_ID, BRAND, date))
-        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
+    when(priceRepository.findApplicablePrices(PRODUCT_ID, BRAND, date))
+        .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, BRAND, date);
 
@@ -64,7 +63,7 @@ class GetPriceUseCaseTest {
         .expectNextCount(1)
         .verifyComplete();
 
-    verify(priceRepository).getPricesByDate(PRODUCT_ID, BRAND, date);
+    verify(priceRepository).findApplicablePrices(PRODUCT_ID, BRAND, date);
   }
 
   @Test
@@ -73,8 +72,8 @@ class GetPriceUseCaseTest {
 
     LocalDateTime date = LocalDateTime.of(2020, 6, 14, 21, 0, 0);
 
-    when(priceRepository.getPricesByDate(PRODUCT_ID, BRAND, date))
-        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
+    when(priceRepository.findApplicablePrices(PRODUCT_ID, BRAND, date))
+        .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, BRAND, date);
 
@@ -82,7 +81,7 @@ class GetPriceUseCaseTest {
         .expectNextCount(1)
         .verifyComplete();
 
-    verify(priceRepository).getPricesByDate(PRODUCT_ID, BRAND, date);
+    verify(priceRepository).findApplicablePrices(PRODUCT_ID, BRAND, date);
   }
 
   @Test
@@ -91,8 +90,8 @@ class GetPriceUseCaseTest {
 
     LocalDateTime date = LocalDateTime.of(2020, 6, 15, 10, 0, 0);
 
-    when(priceRepository.getPricesByDate(PRODUCT_ID, 1, date))
-        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
+    when(priceRepository.findApplicablePrices(PRODUCT_ID, 1, date))
+        .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, 1, date);
 
@@ -100,7 +99,7 @@ class GetPriceUseCaseTest {
         .expectNextCount(1)
         .verifyComplete();
 
-    verify(priceRepository).getPricesByDate(PRODUCT_ID, 1, date);
+    verify(priceRepository).findApplicablePrices(PRODUCT_ID, 1, date);
   }
 
   @Test
@@ -109,8 +108,8 @@ class GetPriceUseCaseTest {
 
     LocalDateTime date = LocalDateTime.of(2020, 6, 16, 21, 0, 0);
 
-    when(priceRepository.getPricesByDate(PRODUCT_ID, 1, date))
-        .thenReturn(Flux.fromIterable(mapper.getPricesByDate()));
+    when(priceRepository.findApplicablePrices(PRODUCT_ID, 1, date))
+        .thenReturn(Mono.just(mapper.buildDomain(mapper.getPriceEntity1())));
 
     Mono<Price> result = getPriceUseCase.getPriceProduct(PRODUCT_ID, 1, date);
 
@@ -118,6 +117,6 @@ class GetPriceUseCaseTest {
         .expectNextCount(1)
         .verifyComplete();
 
-    verify(priceRepository).getPricesByDate(PRODUCT_ID, 1, date);
+    verify(priceRepository).findApplicablePrices(PRODUCT_ID, 1, date);
   }
 }

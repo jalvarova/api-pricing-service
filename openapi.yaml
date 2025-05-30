@@ -11,12 +11,12 @@ servers:
     description: Servidor de producción
 
 paths:
-  /prices/search:
+  /prices:
     post:
       tags:
         - PricingController
-      operationId: getFinalPrice
-      summary: Consultar precio aplicable
+      operationId: getApplicablePrice
+      summary: Consultar precio aplicable por producto, marca y fecha
       requestBody:
         required: true
         content:
@@ -33,11 +33,11 @@ paths:
         '404':
           description: No se encontró precio aplicable
 
-  /prices/{productId}/product:
+  /products/{productId}/prices:
     get:
       tags:
         - PricingController
-      operationId: getPriceForProduct
+      operationId: getAllPricesByProductId
       parameters:
         - in: path
           name: productId
@@ -46,7 +46,7 @@ paths:
             type: integer
             default: 35456
             example: 35456
-      summary: Obtener todos los precios por un producto
+      summary: Obtener todos los precios por producto
       responses:
         '200':
           description: Lista de precios
@@ -61,8 +61,8 @@ paths:
     get:
       tags:
         - PricingController
-      operationId: getPriceForIdentifier
-      summary: Obtener el precio del producto por su id
+      operationId: getPriceById
+      summary: Obtener el precio del producto por ID
       parameters:
         - in: path
           name: id
@@ -92,14 +92,19 @@ components:
         applicationDate:
           type: string
           format: date-time
+          required: true
+          description: Fecha y hora de aplicación
           example: "2020-06-14T16:00:00.000Z"
           default: "2020-06-14T16:00:00.000Z"
         productId:
           type: integer
           example: 35456
           default: 35456
+          required: true
+          description: Identificador del producto
         brandId:
           type: integer
+          description: Identificador de la cadena (marca)
           example: 1
           default: 1
     PriceResponse:

@@ -5,40 +5,42 @@ import java.time.LocalDateTime;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * Service interface for querying product pricing information.
+ */
 public interface PriceRepositoryPort {
 
   /**
-   * Obetner el precio de un producto por determinada fecha y validar su prioridad.
+   * Retrieve the applicable price for a given product, brand, and date.
+   * Applies priority rules to select the most relevant price.
    *
-   * @param productId
-   * @param brandId
-   * @param date
-   * @return Price
+   * @param productId       the ID of the product
+   * @param brandId         the ID of the brand
+   * @param applicationDate the date for which the price is requested
+   * @return a Mono of applicable prices, ordered by priority
    */
-  Flux<Price> getPricesByDate(Long productId, Integer brandId, LocalDateTime date);
+  Mono<Price> findApplicablePrices(Long productId, Integer brandId, LocalDateTime applicationDate);
 
   /**
+   * Retrieve a price by its unique identifier.
    *
-   * Obtener el precip por su identificador.
-   *
-   * @param id
-   * @return Price
+   * @param id the ID of the price
+   * @return a Mono containing the price if found
    */
-  Mono<Price> getPriceById(Long id);
+  Mono<Price> findPriceById(Long id);
 
   /**
+   * Count the total number of price records.
    *
-   * Obtener el nuemero de registros.
-   *
-   * @return Long
+   * @return a Mono with the total number of records
    */
-  Mono<Long> selectCount();
+  Mono<Long> countPrices();
 
   /**
-   * Obtener los precios de un producto.
+   * Retrieve all prices associated with a given product ID.
    *
-   * @param productId
-   * @return ListPrices
+   * @param productId the ID of the product
+   * @return a Flux containing all price entries for the specified product
    */
-  Flux<Price> getAllPricesByProductId(Long productId);
+  Flux<Price> findAllPricesByProductId(Long productId);
 }

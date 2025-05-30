@@ -2,9 +2,9 @@ package com.ecommerce.pricing.application.service;
 
 import com.ecommerce.pricing.domain.mappers.PriceMapper;
 import com.ecommerce.pricing.domain.model.PriceResponse;
-import com.ecommerce.pricing.domain.ports.in.GetAllPriceForProductUseCase;
-import com.ecommerce.pricing.domain.ports.in.GetPriceForIdentifierUseCase;
-import com.ecommerce.pricing.domain.ports.in.GetPriceUseCase;
+import com.ecommerce.pricing.domain.ports.in.GetAllPricesByProductIdUseCase;
+import com.ecommerce.pricing.domain.ports.in.GetPriceByIdUseCase;
+import com.ecommerce.pricing.domain.ports.in.GetApplicablePriceUseCase;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,22 +15,22 @@ import reactor.core.publisher.Mono;
 @Service
 public class PriceServiceAdapterImpl implements PriceServiceAdapter {
 
-  private final GetAllPriceForProductUseCase getAllPriceForProductUseCase;
-  private final GetPriceForIdentifierUseCase getPriceForIdentifierUseCase;
-  private final GetPriceUseCase getPriceUseCase;
+  private final GetAllPricesByProductIdUseCase getAllPricesByProductIdUseCase;
+  private final GetPriceByIdUseCase getPriceByIdUseCase;
+  private final GetApplicablePriceUseCase getApplicablePriceUseCase;
 
   @Override
   public Flux<PriceResponse> getAllPriceByProduct(Long productId) {
-    return getAllPriceForProductUseCase.getAllPriceByProduct(productId).map(PriceMapper.toApi);
+    return getAllPricesByProductIdUseCase.getAllPriceByProduct(productId).map(PriceMapper.toApi);
   }
 
   @Override
   public Mono<PriceResponse> getPriceForIdentifier(Long id) {
-    return getPriceForIdentifierUseCase.getPriceForIdentifier(id).map(PriceMapper.toApi);
+    return getPriceByIdUseCase.getPriceForIdentifier(id).map(PriceMapper.toApi);
   }
 
   @Override
   public Mono<PriceResponse> getPriceProduct(Long productId, Integer brandId, LocalDateTime date) {
-    return getPriceUseCase.getPriceProduct(productId, brandId, date).map(PriceMapper.toApi);
+    return getApplicablePriceUseCase.getPriceProduct(productId, brandId, date).map(PriceMapper.toApi);
   }
 }
